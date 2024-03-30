@@ -17,7 +17,12 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
+        BasicParser.cpp
+        BasicScanner.cpp
         mainwindow.h
+        BasicParser.hpp
+        BasicScanner.hpp
+        FlexLexer.h
         mainwindow.ui
 )
 
