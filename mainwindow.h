@@ -15,7 +15,15 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+
+    void on_BrowseFile_clicked();
+
+    void on_StartParser_clicked();
+
 private:
     Ui::MainWindow *ui;
+    void resetResultArea();
+    void addResultArea(int max, Qt::AlignmentFlag align);
 };
 #endif // MAINWINDOW_H

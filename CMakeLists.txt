@@ -20,8 +20,11 @@ set(PROJECT_SOURCES
         BasicParser.cpp
         BasicScanner.cpp
         mainwindow.h
-        BasicParser.hpp
-        BasicScanner.hpp
+        BasicParser.h
+        BasicScanner.h
+        parserprocessor.cpp
+        parserprocessor.h
+        common.h
         FlexLexer.h
         mainwindow.ui
 )

@@ -1,4 +1,7 @@
 #include "mainwindow.h"
+#include "BasicParser.h"
+#include "BasicScanner.h"
+
 
 #include <QApplication>
 
