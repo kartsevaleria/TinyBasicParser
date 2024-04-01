@@ -25,7 +25,6 @@ set(PROJECT_SOURCES
         parserprocessor.cpp
         parserprocessor.h
         common.h
-        FlexLexer.h
         mainwindow.ui
 )
 
