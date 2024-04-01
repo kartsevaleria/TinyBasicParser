@@ -1,0 +1,124 @@
+%{
+#include "common.h"
+#include <iostream>
+
+int yylex();
+void yyerror(const char *s);
+
+elements_t parsedElements;
+int lineno;
+
+%}
+
+%require "3.8.2"
+%defines "BasicParser.h"
+%output "BasicParser.cpp"
+%define parse.error verbose
+
+%union 
+{
+    int num;
+    char var;
+    char* str;
+
+}
+
+%initial-action
+{
+    lineno = 1;
+    parsedElements.clear();
+}
+
+%token <num> INTEGER
+%token <str> STR 
+%token <char> VARIABLE
+%token PRINT DIM REM IF GOSUB INPUT LET END THEN  LIST CLEAR RUN RETURN 
+%token  LT LE GT GE EQ NE EOL
+
+
+
+
+%%
+program: block	                                            {std::cout << "BISON:OK" << std::endl;}  
+	;
+
+block: block line                                           {std::cout << "BISON:BLOCK LINE" << std::endl;}  
+	 | line                                                 {std::cout << "BISON:LINE" << std::endl;}  
+	;
+
+line: number statement EOL                                     {std::cout << "BISON:NUMBER_STAT" << std::endl;}
+	| statement EOL                                            {std::cout << "BISON:STAT" << std::endl;}  
+	;
+
+statement:
+    PRINT expr_list                                     {std::cout << "BISON:PRINT" << std::endl;}
+    | REM string                                        {std::cout << "BISON:REM" << std::endl;}   
+    | DIM var_list                                      {std::cout << "BISON:DIM" << std::endl;}                 
+    | IF expression relop expression THEN statement     {std::cout << "BISON:IF_THEN" << std::endl;}
+    | GOSUB expression                                  {std::cout << "BISON:GOSUB" << std::endl;}               
+    | INPUT var_list                                    {std::cout << "BISON:INPUT" << std::endl;}                 
+    | LET var EQ expression                             {std::cout << "BISON:LET" << std::endl;}
+    | RETURN                                            {std::cout << "BISON:RETURN" << std::endl;}                          
+    ;
+
+expr_list:
+    expr_list','expression                                  {std::cout << "BISON:EXPR_LIST EXPR" << std::endl;}
+    | expression 	                                        {std::cout << "BISON:EXPR" << std::endl;}
+    | string		                                        {std::cout << "BISON:STRING" << std::endl;}
+    | expr_list','string                                    {std::cout << "BISON:EXPR_LIST STR" << std::endl;}
+    ;
+
+var_list:
+    var_list','var                                          {std::cout << "BISON:VAR_LIST VAR" << std::endl;}
+    | var                                                   {std::cout << "BISON:VAR" << std::endl;}
+    ;
+
+expression:
+    expression'+'term                                       {std::cout << "BISON:EXPR+TERM" << std::endl;}                  
+    | expression'-'term                                     {std::cout << "BISON:EXPR-TERM" << std::endl;}
+    | term                                                  {std::cout << "BISON:TERM" << std::endl;}
+    ;
+
+term:
+    term'*'factor                                           {std::cout << "BISON:TERM*FACTOR" << std::endl;}
+    | term'/'factor                                         {std::cout << "BISON:TERM/FACTOR" << std::endl;}
+    | factor                                                {std::cout << "BISON:FACTOR" << std::endl;}
+    ;
+
+factor:
+    var                                                     {std::cout << "BISON:FACTOR_VAR" << std::endl;}
+    | number                                                {std::cout << "BISON:NUMBER" << std::endl;}
+    | '('expression')'	                                    {std::cout << "BISON:(EXPR)" << std::endl;}
+    ;
+
+number:
+    number digit                                            {std::cout << "BISON:NUMBER_DIGIT" << std::endl;}
+    | digit                                                 {std::cout << "BISON:DIGIT" << std::endl;}
+    ;
+
+digit:
+    INTEGER                                                 {std::cout << "BISON:INT" << std::endl;}
+    ;
+
+var:
+    VARIABLE                                                {std::cout << "BISON:VARIABLE" << std::endl;}
+    ;
+string:
+    STR	                                                    {std::cout << "BISON:STR" << std::endl;}
+     ;
+
+relop:
+    LT	                                                    {std::cout << "BISON:LT" << std::endl;}
+    | LE	                                                {std::cout << "BISON:LE" << std::endl;}
+    | GT	                                                {std::cout << "BISON:GT" << std::endl;}
+    | GE                                                    {std::cout << "BISON:GE" << std::endl;}
+    | EQ                                                    {std::cout << "BISON:EQ" << std::endl;}
+    | NE                                                    {std::cout << "BISON:NE" << std::endl;}
+    ;
+
+%%
+
+void yyerror(const char *s) {
+    yyclearin;
+    throw ParserException{lineno, QString(s)};
+}

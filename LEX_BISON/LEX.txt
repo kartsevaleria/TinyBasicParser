@@ -1,0 +1,47 @@
+%{
+#include <cstdlib>
+#include "BasicParser.h"
+
+int yylex();
+void yyerror(const char *s);
+%}
+
+%option header-file="BasicScanner.h"
+%option outfile="BasicScanner.cpp"
+%option noyywrap
+
+%%
+
+"LET"                   { return LET; }
+"DIM"                   { return DIM; }
+"REM"                   { return REM; }
+"IF"                    { return IF; }
+"THEN"                  { return THEN; }
+"PRINT"                 {return PRINT; }
+"GOSUB"                  {return GOSUB; }
+"INPUT"                 { return INPUT; }
+"END"                   { return END; }
+"LIST"			       { return LIST;}
+"RETURN"		         {return RETURN;}
+"<"                     {return LT; }            
+"<="                    { return LE; }
+">"                     { return GT; }
+">="                    { return GE; }
+"="                    { return EQ; }
+"!="                    { return NE; }         
+[A-Z]                   { yylval.var = yytext[0]; return VARIABLE; }
+[0-9] 			{ yylval.num = atoi(yytext); return INTEGER; }
+\".*\"    		{ yylval.str = strdup(yytext); return STR; }
+[-+*/(),]              { return *yytext; }
+\n                      { return EOL; }
+[ \t]+                  {  printf("%s", " "); }
+.                      { 
+                            yyerror("[LEX error]");
+                       }
+
+%%
+
+
+
+
+
