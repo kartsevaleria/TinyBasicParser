@@ -1,25 +1,27 @@
-#ifndef RELOPNODE_H
-#define RELOPNODE_H
+#ifndef VALUENODE_H
+#define VALUENODE_H
 
 #include "virtualbasenode.h"
 #include "define_type.h"
 #include <iostream>
 
-class RelopNode : public VirtualBaseNode
+class ValueNode : public VirtualBaseNode
 {
 private:
     TypeNode type;
     int lineno;
+    std::string value;
 public:
-    RelopNode(int line, TypeNode t)
+    ValueNode(int line, TypeNode t, std::string val)
     {
         type = t;
         lineno = line;
+        value = val;
     };
 
     TypeNode GetType() override { return this->type; }
     int GetLineno() override { return this->lineno; }
-    std::string GetValue() override { return "ERROR"; }
+    std::string GetValue() override { return this->value; }
 
     void NextStepDown() override
     {
@@ -28,4 +30,4 @@ public:
 
 };
 
-#endif // RELOPNODE_H
+#endif // VALUENODE_H

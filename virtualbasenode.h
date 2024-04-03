@@ -2,8 +2,8 @@
 #define VIRTUALBASENODE_H
 
 #include "define_type.h"
-
-
+#include <string>
+#include <memory>
 
 class VirtualBaseNode
 {
@@ -22,5 +22,7 @@ public:
 //    virtual std::vector<std::shared_ptr<VirtualBaseNode>> GetVectorNodes() = 0;
 
 };
+
+typedef  std::unique_ptr<VirtualBaseNode> U_PtrNode;
 
 #endif // VIRTUALBASENODE_H

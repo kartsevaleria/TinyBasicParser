@@ -25,6 +25,14 @@ set(PROJECT_SOURCES
         parserprocessor.cpp
         parserprocessor.h
         common.h
+        define_type.h
+        defaultnode.h
+        relopnode.h
+        virtualbasenode.h
+        valuenode.h
+        ifnode.h
+        fabricnode.h
+        fabricnode.cpp
         mainwindow.ui
 )
 

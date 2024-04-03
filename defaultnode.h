@@ -4,16 +4,24 @@
 #include "virtualbasenode.h"
 #include "define_type.h"
 #include <iostream>
+#include <memory>
+
 
 class DefaultNode : public VirtualBaseNode
 {
 private:
-    VirtualBaseNode* left;
-    VirtualBaseNode* rigth;
+    U_PtrNode left;
+    U_PtrNode rigth;
     TypeNode type;
     int lineno;
 public:
-    DefaultNode();
+    DefaultNode(int line, TypeNode t, U_PtrNode l, U_PtrNode r)
+    {
+        left = std::move(l);
+        rigth = std::move(r);
+        lineno = line;
+        type = t;
+    };
 
     TypeNode GetType() override { return this->type; }
     int GetLineno() override { return this->lineno; }
@@ -21,8 +29,10 @@ public:
 
     void NextStepDown() override
     {
-      this->left->NextStepDown();
-      this->rigth->NextStepDown();
+      if (this->left != nullptr)
+        this->left->NextStepDown();
+      if (this->rigth != nullptr)
+        this->rigth->NextStepDown();
     }
 
 };
