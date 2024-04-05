@@ -1,9 +1,6 @@
 #include "fabricnode.h"
+#include <memory>
 
-FabricNode::FabricNode()
-{
-
-}
 
 U_PtrNode CreateNode(int line, TypeNode type)
 {

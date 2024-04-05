@@ -12,7 +12,6 @@
 class FabricNode
 {
 public:
-    FabricNode();
     U_PtrNode CreateNode(int line, TypeNode type);
     U_PtrNode CreateNode(int line, TypeNode type, std::string value);
     U_PtrNode CreateNode(int line, TypeNode type, U_PtrNode one, U_PtrNode two, U_PtrNode three, U_PtrNode four);

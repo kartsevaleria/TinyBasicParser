@@ -8,7 +8,6 @@
 class VirtualBaseNode
 {
 public:
-    VirtualBaseNode();
     virtual TypeNode GetType() = 0;
     virtual int GetLineno() = 0;
 
@@ -20,6 +19,7 @@ public:
     virtual void NextStepDown() = 0;
 
 //    virtual std::vector<std::shared_ptr<VirtualBaseNode>> GetVectorNodes() = 0;
+    virtual ~VirtualBaseNode() = default;
 
 };
 
