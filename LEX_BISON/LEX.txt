@@ -29,8 +29,8 @@ void yyerror(const char *s);
 ">="                    { return GE; }
 "="                    { return EQ; }
 "!="                    { return NE; }         
-[A-Z]                   { yylval.var = yytext[0]; return VARIABLE; }
-[0-9] 			{ yylval.num = atoi(yytext); return INTEGER; }
+[A-Z]                   { yylval.var = strdup(yytext); return VARIABLE; }
+[0-9] 			{ yylval.num = strdup(yytext); return INTEGER; }
 \".*\"    		{ yylval.str = strdup(yytext); return STR; }
 [-+*/(),]              { return *yytext; }
 \n                      { return EOL; }
