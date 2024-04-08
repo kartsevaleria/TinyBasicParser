@@ -11,11 +11,7 @@ private:
     TypeNode type;
     int lineno;
 public:
-    RelopNode(int line, TypeNode t)
-    {
-        type = t;
-        lineno = line;
-    };
+    RelopNode(int line, TypeNode t): type(t), lineno(line) {};
 
     TypeNode GetType() override { return this->type; }
     int GetLineno() override { return this->lineno; }

@@ -10,18 +10,13 @@
 class DefaultNode : public VirtualBaseNode
 {
 private:
-    U_PtrNode left;
-    U_PtrNode rigth;
+    VirtualBaseNode* left;
+    VirtualBaseNode* rigth;
     TypeNode type;
     int lineno;
 public:
-    DefaultNode(int line, TypeNode t, U_PtrNode l, U_PtrNode r)
-    {
-        left = std::move(l);
-        rigth = std::move(r);
-        lineno = line;
-        type = t;
-    };
+    DefaultNode(int line, TypeNode type, VirtualBaseNode* left, VirtualBaseNode* rigth) :
+        lineno(line), type(type), left(left), rigth(rigth) {};
 
     TypeNode GetType() override { return this->type; }
     int GetLineno() override { return this->lineno; }

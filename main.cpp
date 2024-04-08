@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "BasicParser.h"
 #include "BasicScanner.h"
+#include "fabricnode.h"
+#include "define_type.h"
 
 
 #include <QApplication>

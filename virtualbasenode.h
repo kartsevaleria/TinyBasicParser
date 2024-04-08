@@ -23,6 +23,6 @@ public:
 
 };
 
-typedef  std::unique_ptr<VirtualBaseNode> U_PtrNode;
+//typedef  std::unique_ptr<VirtualBaseNode> U_PtrNode;
 
 #endif // VIRTUALBASENODE_H

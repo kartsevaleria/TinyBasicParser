@@ -852,12 +852,12 @@ YY_RULE_SETUP
 case 18:
 YY_RULE_SETUP
 #line 32 "LEX.txt"
-{ yylval.var = yytext[0]; return VARIABLE; }
+{ yylval.var = strdup(yytext); return VARIABLE; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 33 "LEX.txt"
-{ yylval.num = atoi(yytext); return INTEGER; }
+{ yylval.num = strdup(yytext); return INTEGER; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP

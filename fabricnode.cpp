@@ -1,27 +1,26 @@
 #include "fabricnode.h"
 #include <memory>
 
-
-U_PtrNode CreateNode(int line, TypeNode type)
+VirtualBaseNode* FabricNode::FabricNode::CreateNode(int line, TypeNode type)
 {
-    U_PtrNode node = std::make_unique<RelopNode>(line, type);
-    return (move(node));
+    VirtualBaseNode* node = new RelopNode(line, type);
+    return node;
 }
 
-U_PtrNode CreateNode(int line, TypeNode type, std::string value)
+VirtualBaseNode* FabricNode::CreateNode(int line, TypeNode type, std::string value)
 {
-    U_PtrNode node = std::make_unique<ValueNode>(line, type, value);
-    return (move(node));
+    VirtualBaseNode* node = new ValueNode(line, type, value);
+    return node;
 }
 
-U_PtrNode CreateNode(int line, TypeNode type, U_PtrNode left, U_PtrNode rigth)
+VirtualBaseNode* FabricNode::CreateNode(int line, TypeNode type, VirtualBaseNode* left, VirtualBaseNode* rigth)
 {
-    U_PtrNode node = std::make_unique<DefaultNode>(line, type, move(left), move(rigth));
-    return (move(node));
+    VirtualBaseNode* node = new DefaultNode(line, type, left, rigth);
+    return node;
 }
 
-U_PtrNode CreateNode(int line, TypeNode type, U_PtrNode one, U_PtrNode two, U_PtrNode three, U_PtrNode four)
+VirtualBaseNode* FabricNode::CreateNode(int line, TypeNode type, VirtualBaseNode* one, VirtualBaseNode* two, VirtualBaseNode* three, VirtualBaseNode* four)
 {
-    U_PtrNode node = std::make_unique<IfNode>(line, type, move(one), move(two), move(three), move(four));
-    return (move(node));
+    VirtualBaseNode* node = new IfNode(line, type, one, two, three, four);
+    return node;
 }

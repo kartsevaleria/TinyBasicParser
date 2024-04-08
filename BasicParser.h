@@ -83,16 +83,18 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+#include "virtualbasenode.h"
 union YYSTYPE
 {
-#line 19 "BISON.txt"
+#line 23 "BISON.txt"
 
-    int num;
-    char var;
+    VirtualBaseNode* node;
+    char* num;
+    char* var;
     char* str;
 
 
-#line 96 "BasicParser.h"
+#line 97 "BasicParser.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

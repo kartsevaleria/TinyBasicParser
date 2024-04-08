@@ -10,22 +10,15 @@
 class IfNode : public VirtualBaseNode
 {
 private:
-    U_PtrNode left_stat;
-    U_PtrNode rigth_stat;
-    U_PtrNode then_stat;
-    U_PtrNode relop;
+    VirtualBaseNode* left_stat;
+    VirtualBaseNode* rigth_stat;
+    VirtualBaseNode* then_stat;
+    VirtualBaseNode* relop;
     TypeNode type;
     int lineno;
 public:
-    IfNode(int line, TypeNode t, U_PtrNode ls, U_PtrNode rs, U_PtrNode ts, U_PtrNode rlp)
-    {
-        left_stat = std::move(ls);
-        rigth_stat = std::move(rs);
-        then_stat = std::move(ts);
-        relop = std::move(rlp);
-        lineno = line;
-        type = t;
-    };
+    IfNode(int line, TypeNode t, VirtualBaseNode* ls, VirtualBaseNode* rs, VirtualBaseNode* ts, VirtualBaseNode* rlp) :
+        left_stat(ls), rigth_stat(rs), then_stat(ts), relop(rlp), type(t), lineno(line) {};
 
     TypeNode GetType() override { return this->type; }
     int GetLineno() override { return this->lineno; }

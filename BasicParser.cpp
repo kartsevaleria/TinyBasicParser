@@ -70,6 +70,9 @@
 #line 1 "BISON.txt"
 
 #include "common.h"
+#include "define_type.h"
+#include "fabricnode.h"
+#include "virtualbasenode.h"
 #include <iostream>
 
 int yylex();
@@ -77,9 +80,10 @@ void yyerror(const char *s);
 
 elements_t parsedElements;
 int lineno;
+VirtualBaseNode* root;
 
 
-#line 83 "BasicParser.cpp"
+#line 87 "BasicParser.cpp"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -543,11 +547,11 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    42,    42,    45,    46,    49,    50,    54,    55,    56,
-      57,    58,    59,    60,    61,    65,    66,    67,    68,    72,
-      73,    77,    78,    79,    83,    84,    85,    89,    90,    91,
-      95,    96,   100,   104,   107,   111,   112,   113,   114,   115,
-     116
+       0,    48,    48,    52,    53,    56,    57,    61,    62,    63,
+      64,    65,    66,    67,    68,    72,    73,    74,    75,    79,
+      80,    84,    85,    86,    90,    91,    92,    96,    97,    98,
+     102,   103,   107,   111,   114,   118,   119,   120,   121,   122,
+     123
 };
 #endif
 
@@ -1224,13 +1228,13 @@ yyparse (void)
 
 
 /* User initialization code.  */
-#line 27 "BISON.txt"
+#line 32 "BISON.txt"
 {
     lineno = 1;
     parsedElements.clear();
 }
 
-#line 1234 "BasicParser.cpp"
+#line 1238 "BasicParser.cpp"
 
   goto yysetstate;
 
@@ -1431,241 +1435,242 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: block  */
-#line 42 "BISON.txt"
-                                                            {std::cout << "BISON:OK" << std::endl;}
-#line 1437 "BasicParser.cpp"
+#line 48 "BISON.txt"
+                                                            {root = (yyvsp[0].node); 
+                                                            return 0; }
+#line 1442 "BasicParser.cpp"
     break;
 
   case 3: /* block: block line  */
-#line 45 "BISON.txt"
-                                                            {std::cout << "BISON:BLOCK LINE" << std::endl;}
-#line 1443 "BasicParser.cpp"
+#line 52 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::BLOCK_LINE, (yyvsp[-1].node), (yyvsp[0].node));}
+#line 1448 "BasicParser.cpp"
     break;
 
   case 4: /* block: line  */
-#line 46 "BISON.txt"
-                                                                {std::cout << "BISON:LINE" << std::endl;}
-#line 1449 "BasicParser.cpp"
+#line 53 "BISON.txt"
+                                                                {(yyval.node) = FabricNode::CreateNode(100, TypeNode::LINE, (yyvsp[0].node), nullptr);}
+#line 1454 "BasicParser.cpp"
     break;
 
   case 5: /* line: number statement EOL  */
-#line 49 "BISON.txt"
-                                                               {std::cout << "BISON:NUMBER_STAT" << std::endl;}
-#line 1455 "BasicParser.cpp"
+#line 56 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::NUM_STATM, (yyvsp[-2].node), (yyvsp[-1].node));}
+#line 1460 "BasicParser.cpp"
     break;
 
   case 6: /* line: statement EOL  */
-#line 50 "BISON.txt"
-                                                                   {std::cout << "BISON:STAT" << std::endl;}
-#line 1461 "BasicParser.cpp"
+#line 57 "BISON.txt"
+                                                                {(yyval.node) = FabricNode::CreateNode(100, TypeNode::STATM, (yyvsp[-1].node), nullptr);}
+#line 1466 "BasicParser.cpp"
     break;
 
   case 7: /* statement: PRINT expr_list  */
-#line 54 "BISON.txt"
-                                                        {std::cout << "BISON:PRINT" << std::endl;}
-#line 1467 "BasicParser.cpp"
+#line 61 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::PRINT, (yyvsp[0].node), nullptr);}
+#line 1472 "BasicParser.cpp"
     break;
 
   case 8: /* statement: REM string  */
-#line 55 "BISON.txt"
-                                                        {std::cout << "BISON:REM" << std::endl;}
-#line 1473 "BasicParser.cpp"
+#line 62 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::REM, (yyvsp[0].node), nullptr);}
+#line 1478 "BasicParser.cpp"
     break;
 
   case 9: /* statement: DIM var_list  */
-#line 56 "BISON.txt"
-                                                        {std::cout << "BISON:DIM" << std::endl;}
-#line 1479 "BasicParser.cpp"
+#line 63 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::DIM, (yyvsp[0].node), nullptr);}
+#line 1484 "BasicParser.cpp"
     break;
 
   case 10: /* statement: IF expression relop expression THEN statement  */
-#line 57 "BISON.txt"
-                                                        {std::cout << "BISON:IF_THEN" << std::endl;}
-#line 1485 "BasicParser.cpp"
+#line 64 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::IF_THEN, (yyvsp[-4].node), (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[0].node));}
+#line 1490 "BasicParser.cpp"
     break;
 
   case 11: /* statement: GOSUB expression  */
-#line 58 "BISON.txt"
-                                                        {std::cout << "BISON:GOSUB" << std::endl;}
-#line 1491 "BasicParser.cpp"
+#line 65 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::GOSUB, (yyvsp[0].node), nullptr);}
+#line 1496 "BasicParser.cpp"
     break;
 
   case 12: /* statement: INPUT var_list  */
-#line 59 "BISON.txt"
-                                                        {std::cout << "BISON:INPUT" << std::endl;}
-#line 1497 "BasicParser.cpp"
+#line 66 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::INPUT, (yyvsp[0].node), nullptr);}
+#line 1502 "BasicParser.cpp"
     break;
 
   case 13: /* statement: LET var EQ expression  */
-#line 60 "BISON.txt"
-                                                        {std::cout << "BISON:LET" << std::endl;}
-#line 1503 "BasicParser.cpp"
+#line 67 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::LET, (yyvsp[-2].node), (yyvsp[0].node));}
+#line 1508 "BasicParser.cpp"
     break;
 
   case 14: /* statement: RETURN  */
-#line 61 "BISON.txt"
-                                                        {std::cout << "BISON:RETURN" << std::endl;}
-#line 1509 "BasicParser.cpp"
+#line 68 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::RETRN, nullptr, nullptr);}
+#line 1514 "BasicParser.cpp"
     break;
 
   case 15: /* expr_list: expr_list ',' expression  */
-#line 65 "BISON.txt"
-                                                            {std::cout << "BISON:EXPR_LIST EXPR" << std::endl;}
-#line 1515 "BasicParser.cpp"
+#line 72 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::EXPR_LST, (yyvsp[-2].node), (yyvsp[0].node));}
+#line 1520 "BasicParser.cpp"
     break;
 
   case 16: /* expr_list: expression  */
-#line 66 "BISON.txt"
-                                                                {std::cout << "BISON:EXPR" << std::endl;}
-#line 1521 "BasicParser.cpp"
+#line 73 "BISON.txt"
+                                                                {(yyval.node) = FabricNode::CreateNode(100, TypeNode::EXPRESSION, (yyvsp[0].node), nullptr);}
+#line 1526 "BasicParser.cpp"
     break;
 
   case 17: /* expr_list: string  */
-#line 67 "BISON.txt"
-                                                                {std::cout << "BISON:STRING" << std::endl;}
-#line 1527 "BasicParser.cpp"
+#line 74 "BISON.txt"
+                                                                {(yyval.node) = FabricNode::CreateNode(100, TypeNode::STR, (yyvsp[0].node), nullptr);}
+#line 1532 "BasicParser.cpp"
     break;
 
   case 18: /* expr_list: expr_list ',' string  */
-#line 68 "BISON.txt"
-                                                            {std::cout << "BISON:EXPR_LIST STR" << std::endl;}
-#line 1533 "BasicParser.cpp"
+#line 75 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::EXPR_LST, (yyvsp[-2].node), (yyvsp[0].node));}
+#line 1538 "BasicParser.cpp"
     break;
 
   case 19: /* var_list: var_list ',' var  */
-#line 72 "BISON.txt"
-                                                            {std::cout << "BISON:VAR_LIST VAR" << std::endl;}
-#line 1539 "BasicParser.cpp"
+#line 79 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::VAR_LST, (yyvsp[-2].node), (yyvsp[0].node));}
+#line 1544 "BasicParser.cpp"
     break;
 
   case 20: /* var_list: var  */
-#line 73 "BISON.txt"
-                                                            {std::cout << "BISON:VAR" << std::endl;}
-#line 1545 "BasicParser.cpp"
+#line 80 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::VAR, (yyvsp[0].node), nullptr);}
+#line 1550 "BasicParser.cpp"
     break;
 
   case 21: /* expression: expression '+' term  */
-#line 77 "BISON.txt"
-                                                            {std::cout << "BISON:EXPR+TERM" << std::endl;}
-#line 1551 "BasicParser.cpp"
+#line 84 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::EX_ADD_TERM, (yyvsp[-2].node), (yyvsp[0].node));}
+#line 1556 "BasicParser.cpp"
     break;
 
   case 22: /* expression: expression '-' term  */
-#line 78 "BISON.txt"
-                                                            {std::cout << "BISON:EXPR-TERM" << std::endl;}
-#line 1557 "BasicParser.cpp"
+#line 85 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::EX_SUB_TERM, (yyvsp[-2].node), (yyvsp[0].node));}
+#line 1562 "BasicParser.cpp"
     break;
 
   case 23: /* expression: term  */
-#line 79 "BISON.txt"
-                                                            {std::cout << "BISON:TERM" << std::endl;}
-#line 1563 "BasicParser.cpp"
+#line 86 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::TERM, (yyvsp[0].node), nullptr);}
+#line 1568 "BasicParser.cpp"
     break;
 
   case 24: /* term: term '*' factor  */
-#line 83 "BISON.txt"
-                                                            {std::cout << "BISON:TERM*FACTOR" << std::endl;}
-#line 1569 "BasicParser.cpp"
+#line 90 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::TERM_MALT_FACT, (yyvsp[-2].node), (yyvsp[0].node));}
+#line 1574 "BasicParser.cpp"
     break;
 
   case 25: /* term: term '/' factor  */
-#line 84 "BISON.txt"
-                                                            {std::cout << "BISON:TERM/FACTOR" << std::endl;}
-#line 1575 "BasicParser.cpp"
+#line 91 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::TERM_DIVIDE_FACT, (yyvsp[-2].node), (yyvsp[0].node));}
+#line 1580 "BasicParser.cpp"
     break;
 
   case 26: /* term: factor  */
-#line 85 "BISON.txt"
-                                                            {std::cout << "BISON:FACTOR" << std::endl;}
-#line 1581 "BasicParser.cpp"
+#line 92 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::FACTOR, (yyvsp[0].node), nullptr);}
+#line 1586 "BasicParser.cpp"
     break;
 
   case 27: /* factor: var  */
-#line 89 "BISON.txt"
-                                                            {std::cout << "BISON:FACTOR_VAR" << std::endl;}
-#line 1587 "BasicParser.cpp"
+#line 96 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::VAR, (yyvsp[0].node), nullptr);}
+#line 1592 "BasicParser.cpp"
     break;
 
   case 28: /* factor: number  */
-#line 90 "BISON.txt"
-                                                            {std::cout << "BISON:NUMBER" << std::endl;}
-#line 1593 "BasicParser.cpp"
+#line 97 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::NUMBER, (yyvsp[0].node), nullptr);}
+#line 1598 "BasicParser.cpp"
     break;
 
   case 29: /* factor: '(' expression ')'  */
-#line 91 "BISON.txt"
-                                                            {std::cout << "BISON:(EXPR)" << std::endl;}
-#line 1599 "BasicParser.cpp"
+#line 98 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::EXPRESSION, (yyvsp[-1].node), nullptr);}
+#line 1604 "BasicParser.cpp"
     break;
 
   case 30: /* number: number digit  */
-#line 95 "BISON.txt"
-                                                            {std::cout << "BISON:NUMBER_DIGIT" << std::endl;}
-#line 1605 "BasicParser.cpp"
+#line 102 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::NUMBER_DG, (yyvsp[-1].node), (yyvsp[0].node));}
+#line 1610 "BasicParser.cpp"
     break;
 
   case 31: /* number: digit  */
-#line 96 "BISON.txt"
-                                                            {std::cout << "BISON:DIGIT" << std::endl;}
-#line 1611 "BasicParser.cpp"
+#line 103 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::DIGIT, (yyvsp[0].node), nullptr);}
+#line 1616 "BasicParser.cpp"
     break;
 
   case 32: /* digit: INTEGER  */
-#line 100 "BISON.txt"
-                                                            {std::cout << "BISON:INT" << std::endl;}
-#line 1617 "BasicParser.cpp"
+#line 107 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::INTEGER, (yyvsp[0].num));}
+#line 1622 "BasicParser.cpp"
     break;
 
   case 33: /* var: VARIABLE  */
-#line 104 "BISON.txt"
-                                                            {std::cout << "BISON:VARIABLE" << std::endl;}
-#line 1623 "BasicParser.cpp"
+#line 111 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::VARIABLE, (yyvsp[0].var));}
+#line 1628 "BasicParser.cpp"
     break;
 
   case 34: /* string: STR  */
-#line 107 "BISON.txt"
-                                                            {std::cout << "BISON:STR" << std::endl;}
-#line 1629 "BasicParser.cpp"
+#line 114 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::STRING, (yyvsp[0].str));}
+#line 1634 "BasicParser.cpp"
     break;
 
   case 35: /* relop: LT  */
-#line 111 "BISON.txt"
-                                                            {std::cout << "BISON:LT" << std::endl;}
-#line 1635 "BasicParser.cpp"
+#line 118 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::LT);}
+#line 1640 "BasicParser.cpp"
     break;
 
   case 36: /* relop: LE  */
-#line 112 "BISON.txt"
-                                                                {std::cout << "BISON:LE" << std::endl;}
-#line 1641 "BasicParser.cpp"
+#line 119 "BISON.txt"
+                                                                {(yyval.node) = FabricNode::CreateNode(100, TypeNode::LE);}
+#line 1646 "BasicParser.cpp"
     break;
 
   case 37: /* relop: GT  */
-#line 113 "BISON.txt"
-                                                                {std::cout << "BISON:GT" << std::endl;}
-#line 1647 "BasicParser.cpp"
+#line 120 "BISON.txt"
+                                                                {(yyval.node) = FabricNode::CreateNode(100, TypeNode::GT);}
+#line 1652 "BasicParser.cpp"
     break;
 
   case 38: /* relop: GE  */
-#line 114 "BISON.txt"
-                                                            {std::cout << "BISON:GE" << std::endl;}
-#line 1653 "BasicParser.cpp"
+#line 121 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::GE);}
+#line 1658 "BasicParser.cpp"
     break;
 
   case 39: /* relop: EQ  */
-#line 115 "BISON.txt"
-                                                            {std::cout << "BISON:EQ" << std::endl;}
-#line 1659 "BasicParser.cpp"
+#line 122 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::EQ);}
+#line 1664 "BasicParser.cpp"
     break;
 
   case 40: /* relop: NE  */
-#line 116 "BISON.txt"
-                                                            {std::cout << "BISON:NE" << std::endl;}
-#line 1665 "BasicParser.cpp"
+#line 123 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::NE);}
+#line 1670 "BasicParser.cpp"
     break;
 
 
-#line 1669 "BasicParser.cpp"
+#line 1674 "BasicParser.cpp"
 
       default: break;
     }
@@ -1889,7 +1894,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 119 "BISON.txt"
+#line 126 "BISON.txt"
 
 
 void yyerror(const char *s) {

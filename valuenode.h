@@ -12,12 +12,7 @@ private:
     int lineno;
     std::string value;
 public:
-    ValueNode(int line, TypeNode t, std::string val)
-    {
-        type = t;
-        lineno = line;
-        value = val;
-    };
+    ValueNode(int line, TypeNode t, std::string val): type(t), lineno(line), value(val) {};
 
     TypeNode GetType() override { return this->type; }
     int GetLineno() override { return this->lineno; }

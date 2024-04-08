@@ -28,7 +28,7 @@ typedef enum class TypeNode
     STR = 23,
     RETRN = 24,
     LET = 25,
-    INPT = 26,
+    INPUT = 26,
     GOSUB = 27,
     IF_THEN = 28,
     DIM = 29,

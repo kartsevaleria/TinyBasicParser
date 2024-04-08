@@ -12,10 +12,10 @@
 class FabricNode
 {
 public:
-    U_PtrNode CreateNode(int line, TypeNode type);
-    U_PtrNode CreateNode(int line, TypeNode type, std::string value);
-    U_PtrNode CreateNode(int line, TypeNode type, U_PtrNode one, U_PtrNode two, U_PtrNode three, U_PtrNode four);
-    U_PtrNode CreateNode(int line, TypeNode type, U_PtrNode left, U_PtrNode rigth);
+    static VirtualBaseNode* CreateNode(int line, TypeNode type);
+    static VirtualBaseNode* CreateNode(int line, TypeNode type, std::string value);
+    static VirtualBaseNode* CreateNode(int line, TypeNode type, VirtualBaseNode* one, VirtualBaseNode* two, VirtualBaseNode* three, VirtualBaseNode* four);
+    static VirtualBaseNode* CreateNode(int line, TypeNode type, VirtualBaseNode* left, VirtualBaseNode* rigth);
 };
 
 #endif // FABRICNODE_H
