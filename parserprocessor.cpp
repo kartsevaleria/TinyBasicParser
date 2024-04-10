@@ -6,6 +6,7 @@
 #include "BasicScanner.h"
 
 extern elements_t parsedElements;
+extern VirtualBaseNode* root;
 
 YYBufferGuard::YYBufferGuard(YY_BUFFER_STATE* state) :
     mState(state)
