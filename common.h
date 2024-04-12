@@ -3,12 +3,6 @@
 
 #include <QVector>
 
-typedef struct ParseElement {
-    int max;
-    Qt::AlignmentFlag alignment;
-} ParseElement;
-typedef QVector<ParseElement> elements_t;
-
 typedef struct ParserException {
     int lineNumber;
     QString what;
