@@ -8,7 +8,6 @@
 int yylex();
 void yyerror(const char *s);
 
-elements_t parsedElements;
 int lineno;
 VirtualBaseNode* root;
 
@@ -31,7 +30,6 @@ VirtualBaseNode* root;
 %initial-action
 {
     lineno = 1;
-    parsedElements.clear();
 }
 
 %token <num> INTEGER
