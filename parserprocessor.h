@@ -18,10 +18,15 @@ public:
 
 class ParserProcessor
 {
-    elements_t mElements;
+    //elements_t mElements;
+private:
+    QByteArray data;
 public:
     ParserProcessor(QByteArray data);
-    elements_t& elements();
+    //elements_t& elements();
+    int BisonParser();
+    int SemanticAnalys();
+    int Translation();
 };
 
 #endif // PARSERPROCESSOR_H

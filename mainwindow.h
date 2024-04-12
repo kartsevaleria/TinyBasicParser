@@ -16,13 +16,12 @@ public:
     ~MainWindow();
 
 private slots:
-
-    void on_BrowseFile_clicked();
-
-    void on_StartParser_clicked();
+    void on_BrowseFile_triggered();
+    void on_StartButton_clicked();
 
 private:
     Ui::MainWindow *ui;
+    QString PathToInputFile;
     void resetResultArea();
     void addResultArea(int max, Qt::AlignmentFlag align);
 };

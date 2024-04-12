@@ -5,7 +5,6 @@
 #include "BasicParser.h"
 #include "BasicScanner.h"
 
-extern elements_t parsedElements;
 extern VirtualBaseNode* root;
 
 YYBufferGuard::YYBufferGuard(YY_BUFFER_STATE* state) :
@@ -18,13 +17,16 @@ YYBufferGuard::~YYBufferGuard() {
 }
 
 
-ParserProcessor::ParserProcessor(QByteArray data) :
-    mElements()
+ParserProcessor::ParserProcessor(QByteArray data) : data(data)
+{
+
+}
+
+int ParserProcessor::BisonParser()
 {
     YY_BUFFER_STATE buffer = yy_scan_string(data.constData());
     YYBufferGuard guard(&buffer);
     Q_UNUSED(guard)
-
     int retcode;
     try {
         retcode = yyparse();
@@ -34,12 +36,9 @@ ParserProcessor::ParserProcessor(QByteArray data) :
     }
 
     if (retcode == 0) {
-        qDebug() << "Successfully parsed" << parsedElements.count() << "elements";
-        mElements.swap(parsedElements);
+
     }
+    return retcode;
 }
 
-elements_t& ParserProcessor::elements()
-{
-    return mElements;
-}
+
