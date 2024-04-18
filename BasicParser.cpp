@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 3.8.2.  */
+/* A Bison parser, made by GNU Bison 3.7.5.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
@@ -16,7 +16,7 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <https://www.gnu.org/licenses/>.  */
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 /* As a special exception, you may create a larger work that contains
    part or all of the Bison parser skeleton and distribute that work
@@ -46,10 +46,10 @@
    USER NAME SPACE" below.  */
 
 /* Identify Bison output, and Bison version.  */
-#define YYBISON 30802
+#define YYBISON 30705
 
 /* Bison version string.  */
-#define YYBISON_VERSION "3.8.2"
+#define YYBISON_VERSION "3.7.5"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -78,12 +78,11 @@
 int yylex();
 void yyerror(const char *s);
 
-elements_t parsedElements;
 int lineno;
 VirtualBaseNode* root;
 
 
-#line 87 "BasicParser.cpp"
+#line 86 "BasicParser.cpp"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -316,18 +315,12 @@ typedef int yy_state_fast_t;
 # define YY_USE(E) /* empty */
 #endif
 
+#if defined __GNUC__ && ! defined __ICC && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
 /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
-#if defined __GNUC__ && ! defined __ICC && 406 <= __GNUC__ * 100 + __GNUC_MINOR__
-# if __GNUC__ * 100 + __GNUC_MINOR__ < 407
-#  define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                           \
-    _Pragma ("GCC diagnostic push")                                     \
-    _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")
-# else
-#  define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                           \
+# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                            \
     _Pragma ("GCC diagnostic push")                                     \
     _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")              \
     _Pragma ("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")
-# endif
 # define YY_IGNORE_MAYBE_UNINITIALIZED_END      \
     _Pragma ("GCC diagnostic pop")
 #else
@@ -544,14 +537,14 @@ static const yytype_int8 yytranslate[] =
 };
 
 #if YYDEBUG
-/* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
+  /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    48,    48,    52,    53,    56,    57,    61,    62,    63,
-      64,    65,    66,    67,    68,    72,    73,    74,    75,    79,
-      80,    84,    85,    86,    90,    91,    92,    96,    97,    98,
-     102,   103,   107,   111,   114,   118,   119,   120,   121,   122,
-     123
+       0,    46,    46,    50,    51,    54,    55,    59,    60,    61,
+      62,    63,    64,    65,    66,    70,    71,    72,    73,    77,
+      78,    82,    83,    84,    88,    89,    90,    94,    95,    96,
+     100,   101,   105,   109,   112,   116,   117,   118,   119,   120,
+     121
 };
 #endif
 
@@ -583,6 +576,18 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
+#ifdef YYPRINT
+/* YYTOKNUM[NUM] -- (External) token number corresponding to the
+   (internal) symbol number NUM (which must be that of a token).  */
+static const yytype_int16 yytoknum[] =
+{
+       0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
+     265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
+     275,   276,   277,   278,   279,   280,    44,    43,    45,    42,
+      47,    40,    41
+};
+#endif
+
 #define YYPACT_NINF (-20)
 
 #define yypact_value_is_default(Yyn) \
@@ -593,8 +598,8 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 #define yytable_value_is_error(Yyn) \
   0
 
-/* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
-   STATE-NUM.  */
+  /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
+     STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
       13,   -20,     6,     7,    22,    10,    10,     7,     7,   -20,
@@ -606,9 +611,9 @@ static const yytype_int8 yypact[] =
      -20,   -20,   -10,     5,    45,   -20
 };
 
-/* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
-   Performed when YYTABLE does not specify something else to do.  Zero
-   means the default is an error.  */
+  /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
+     Performed when YYTABLE does not specify something else to do.  Zero
+     means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
        0,    32,     0,     0,     0,     0,     0,     0,     0,    14,
@@ -620,23 +625,23 @@ static const yytype_int8 yydefact[] =
       25,    19,     0,    13,     0,    10
 };
 
-/* YYPGOTO[NTERM-NUM].  */
+  /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
      -20,   -20,   -20,    60,   -14,   -20,    51,    -4,     2,     3,
       27,    16,     0,     1,   -20
 };
 
-/* YYDEFGOTO[NTERM-NUM].  */
+  /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
        0,    10,    11,    12,    13,    19,    26,    20,    21,    22,
       23,    15,    24,    25,    51
 };
 
-/* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
-   positive, shift that token.  If negative, reduce the rule whose
-   number is the opposite.  If YYTABLE_NINF, syntax error.  */
+  /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
+     positive, shift that token.  If negative, reduce the rule whose
+     number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
       36,    29,    30,    27,    64,    28,    35,    27,    32,     1,
@@ -661,8 +666,8 @@ static const yytype_int8 yycheck[] =
       24,    11,    25,    27,    28
 };
 
-/* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
-   state STATE-NUM.  */
+  /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
+     symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
        0,     3,     6,     7,     8,     9,    10,    11,    12,    18,
@@ -674,7 +679,7 @@ static const yytype_int8 yystos[] =
       42,    45,    40,    40,    14,    37
 };
 
-/* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
+  /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
        0,    33,    34,    35,    35,    36,    36,    37,    37,    37,
@@ -684,7 +689,7 @@ static const yytype_int8 yyr1[] =
       47
 };
 
-/* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
+  /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     1,     2,     1,     3,     2,     2,     2,     2,
@@ -703,7 +708,6 @@ enum { YYENOMEM = -2 };
 #define YYACCEPT        goto yyacceptlab
 #define YYABORT         goto yyabortlab
 #define YYERROR         goto yyerrorlab
-#define YYNOMEM         goto yyexhaustedlab
 
 
 #define YYRECOVERING()  (!!yyerrstatus)
@@ -744,7 +748,10 @@ do {                                            \
     YYFPRINTF Args;                             \
 } while (0)
 
-
+/* This macro is provided for backward compatibility. */
+# ifndef YY_LOCATION_PRINT
+#  define YY_LOCATION_PRINT(File, Loc) ((void) 0)
+# endif
 
 
 # define YY_SYMBOL_PRINT(Title, Kind, Value, Location)                    \
@@ -771,6 +778,10 @@ yy_symbol_value_print (FILE *yyo,
   YY_USE (yyoutput);
   if (!yyvaluep)
     return;
+# ifdef YYPRINT
+  if (yykind < YYNTOKENS)
+    YYPRINT (yyo, yytoknum[yykind], *yyvaluep);
+# endif
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   YY_USE (yykind);
   YY_IGNORE_MAYBE_UNINITIALIZED_END
@@ -1226,15 +1237,13 @@ yyparse (void)
 
   yychar = YYEMPTY; /* Cause a token to be read.  */
 
-
 /* User initialization code.  */
-#line 32 "BISON.txt"
+#line 31 "BISON.txt"
 {
     lineno = 1;
-    parsedElements.clear();
 }
 
-#line 1238 "BasicParser.cpp"
+#line 1247 "BasicParser.cpp"
 
   goto yysetstate;
 
@@ -1261,7 +1270,7 @@ yysetstate:
 
   if (yyss + yystacksize - 1 <= yyssp)
 #if !defined yyoverflow && !defined YYSTACK_RELOCATE
-    YYNOMEM;
+    goto yyexhaustedlab;
 #else
     {
       /* Get the current used size of the three stacks, in elements.  */
@@ -1289,7 +1298,7 @@ yysetstate:
 # else /* defined YYSTACK_RELOCATE */
       /* Extend the stack our own way.  */
       if (YYMAXDEPTH <= yystacksize)
-        YYNOMEM;
+        goto yyexhaustedlab;
       yystacksize *= 2;
       if (YYMAXDEPTH < yystacksize)
         yystacksize = YYMAXDEPTH;
@@ -1300,7 +1309,7 @@ yysetstate:
           YY_CAST (union yyalloc *,
                    YYSTACK_ALLOC (YY_CAST (YYSIZE_T, YYSTACK_BYTES (yystacksize))));
         if (! yyptr)
-          YYNOMEM;
+          goto yyexhaustedlab;
         YYSTACK_RELOCATE (yyss_alloc, yyss);
         YYSTACK_RELOCATE (yyvs_alloc, yyvs);
 #  undef YYSTACK_RELOCATE
@@ -1321,7 +1330,6 @@ yysetstate:
         YYABORT;
     }
 #endif /* !defined yyoverflow && !defined YYSTACK_RELOCATE */
-
 
   if (yystate == YYFINAL)
     YYACCEPT;
@@ -1435,242 +1443,242 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: block  */
-#line 48 "BISON.txt"
+#line 46 "BISON.txt"
                                                             {root = (yyvsp[0].node); 
                                                             return 0; }
-#line 1442 "BasicParser.cpp"
+#line 1450 "BasicParser.cpp"
     break;
 
   case 3: /* block: block line  */
-#line 52 "BISON.txt"
+#line 50 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::BLOCK_LINE, (yyvsp[-1].node), (yyvsp[0].node));}
-#line 1448 "BasicParser.cpp"
+#line 1456 "BasicParser.cpp"
     break;
 
   case 4: /* block: line  */
-#line 53 "BISON.txt"
+#line 51 "BISON.txt"
                                                                 {(yyval.node) = FabricNode::CreateNode(100, TypeNode::LINE, (yyvsp[0].node), nullptr);}
-#line 1454 "BasicParser.cpp"
+#line 1462 "BasicParser.cpp"
     break;
 
   case 5: /* line: number statement EOL  */
-#line 56 "BISON.txt"
-                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::NUM_STATM, (yyvsp[-2].node), (yyvsp[-1].node));}
-#line 1460 "BasicParser.cpp"
+#line 54 "BISON.txt"
+                                                            {(yyval.node) = FabricNode::CreateNode(100, TypeNode::NUM_STATM, (yyvsp[-2].node), (yyvsp[-1].node)); lineno++;}
+#line 1468 "BasicParser.cpp"
     break;
 
   case 6: /* line: statement EOL  */
-#line 57 "BISON.txt"
-                                                                {(yyval.node) = FabricNode::CreateNode(100, TypeNode::STATM, (yyvsp[-1].node), nullptr);}
-#line 1466 "BasicParser.cpp"
+#line 55 "BISON.txt"
+                                                                {(yyval.node) = FabricNode::CreateNode(100, TypeNode::STATM, (yyvsp[-1].node), nullptr); lineno++;}
+#line 1474 "BasicParser.cpp"
     break;
 
   case 7: /* statement: PRINT expr_list  */
-#line 61 "BISON.txt"
+#line 59 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::PRINT, (yyvsp[0].node), nullptr);}
-#line 1472 "BasicParser.cpp"
+#line 1480 "BasicParser.cpp"
     break;
 
   case 8: /* statement: REM string  */
-#line 62 "BISON.txt"
+#line 60 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::REM, (yyvsp[0].node), nullptr);}
-#line 1478 "BasicParser.cpp"
+#line 1486 "BasicParser.cpp"
     break;
 
   case 9: /* statement: DIM var_list  */
-#line 63 "BISON.txt"
+#line 61 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::DIM, (yyvsp[0].node), nullptr);}
-#line 1484 "BasicParser.cpp"
+#line 1492 "BasicParser.cpp"
     break;
 
   case 10: /* statement: IF expression relop expression THEN statement  */
-#line 64 "BISON.txt"
+#line 62 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::IF_THEN, (yyvsp[-4].node), (yyvsp[-3].node), (yyvsp[-2].node), (yyvsp[0].node));}
-#line 1490 "BasicParser.cpp"
+#line 1498 "BasicParser.cpp"
     break;
 
   case 11: /* statement: GOSUB expression  */
-#line 65 "BISON.txt"
+#line 63 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::GOSUB, (yyvsp[0].node), nullptr);}
-#line 1496 "BasicParser.cpp"
+#line 1504 "BasicParser.cpp"
     break;
 
   case 12: /* statement: INPUT var_list  */
-#line 66 "BISON.txt"
+#line 64 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::INPUT, (yyvsp[0].node), nullptr);}
-#line 1502 "BasicParser.cpp"
+#line 1510 "BasicParser.cpp"
     break;
 
   case 13: /* statement: LET var EQ expression  */
-#line 67 "BISON.txt"
+#line 65 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::LET, (yyvsp[-2].node), (yyvsp[0].node));}
-#line 1508 "BasicParser.cpp"
+#line 1516 "BasicParser.cpp"
     break;
 
   case 14: /* statement: RETURN  */
-#line 68 "BISON.txt"
+#line 66 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::RETRN, nullptr, nullptr);}
-#line 1514 "BasicParser.cpp"
+#line 1522 "BasicParser.cpp"
     break;
 
   case 15: /* expr_list: expr_list ',' expression  */
-#line 72 "BISON.txt"
+#line 70 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::EXPR_LST, (yyvsp[-2].node), (yyvsp[0].node));}
-#line 1520 "BasicParser.cpp"
+#line 1528 "BasicParser.cpp"
     break;
 
   case 16: /* expr_list: expression  */
-#line 73 "BISON.txt"
+#line 71 "BISON.txt"
                                                                 {(yyval.node) = FabricNode::CreateNode(100, TypeNode::EXPRESSION, (yyvsp[0].node), nullptr);}
-#line 1526 "BasicParser.cpp"
+#line 1534 "BasicParser.cpp"
     break;
 
   case 17: /* expr_list: string  */
-#line 74 "BISON.txt"
+#line 72 "BISON.txt"
                                                                 {(yyval.node) = FabricNode::CreateNode(100, TypeNode::STR, (yyvsp[0].node), nullptr);}
-#line 1532 "BasicParser.cpp"
+#line 1540 "BasicParser.cpp"
     break;
 
   case 18: /* expr_list: expr_list ',' string  */
-#line 75 "BISON.txt"
+#line 73 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::EXPR_LST, (yyvsp[-2].node), (yyvsp[0].node));}
-#line 1538 "BasicParser.cpp"
+#line 1546 "BasicParser.cpp"
     break;
 
   case 19: /* var_list: var_list ',' var  */
-#line 79 "BISON.txt"
+#line 77 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::VAR_LST, (yyvsp[-2].node), (yyvsp[0].node));}
-#line 1544 "BasicParser.cpp"
+#line 1552 "BasicParser.cpp"
     break;
 
   case 20: /* var_list: var  */
-#line 80 "BISON.txt"
+#line 78 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::VAR, (yyvsp[0].node), nullptr);}
-#line 1550 "BasicParser.cpp"
+#line 1558 "BasicParser.cpp"
     break;
 
   case 21: /* expression: expression '+' term  */
-#line 84 "BISON.txt"
+#line 82 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::EX_ADD_TERM, (yyvsp[-2].node), (yyvsp[0].node));}
-#line 1556 "BasicParser.cpp"
+#line 1564 "BasicParser.cpp"
     break;
 
   case 22: /* expression: expression '-' term  */
-#line 85 "BISON.txt"
+#line 83 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::EX_SUB_TERM, (yyvsp[-2].node), (yyvsp[0].node));}
-#line 1562 "BasicParser.cpp"
+#line 1570 "BasicParser.cpp"
     break;
 
   case 23: /* expression: term  */
-#line 86 "BISON.txt"
+#line 84 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::TERM, (yyvsp[0].node), nullptr);}
-#line 1568 "BasicParser.cpp"
+#line 1576 "BasicParser.cpp"
     break;
 
   case 24: /* term: term '*' factor  */
-#line 90 "BISON.txt"
+#line 88 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::TERM_MALT_FACT, (yyvsp[-2].node), (yyvsp[0].node));}
-#line 1574 "BasicParser.cpp"
+#line 1582 "BasicParser.cpp"
     break;
 
   case 25: /* term: term '/' factor  */
-#line 91 "BISON.txt"
+#line 89 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::TERM_DIVIDE_FACT, (yyvsp[-2].node), (yyvsp[0].node));}
-#line 1580 "BasicParser.cpp"
+#line 1588 "BasicParser.cpp"
     break;
 
   case 26: /* term: factor  */
-#line 92 "BISON.txt"
+#line 90 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::FACTOR, (yyvsp[0].node), nullptr);}
-#line 1586 "BasicParser.cpp"
+#line 1594 "BasicParser.cpp"
     break;
 
   case 27: /* factor: var  */
-#line 96 "BISON.txt"
+#line 94 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::VAR, (yyvsp[0].node), nullptr);}
-#line 1592 "BasicParser.cpp"
+#line 1600 "BasicParser.cpp"
     break;
 
   case 28: /* factor: number  */
-#line 97 "BISON.txt"
+#line 95 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::NUMBER, (yyvsp[0].node), nullptr);}
-#line 1598 "BasicParser.cpp"
+#line 1606 "BasicParser.cpp"
     break;
 
   case 29: /* factor: '(' expression ')'  */
-#line 98 "BISON.txt"
+#line 96 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::EXPRESSION, (yyvsp[-1].node), nullptr);}
-#line 1604 "BasicParser.cpp"
+#line 1612 "BasicParser.cpp"
     break;
 
   case 30: /* number: number digit  */
-#line 102 "BISON.txt"
+#line 100 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::NUMBER_DG, (yyvsp[-1].node), (yyvsp[0].node));}
-#line 1610 "BasicParser.cpp"
+#line 1618 "BasicParser.cpp"
     break;
 
   case 31: /* number: digit  */
-#line 103 "BISON.txt"
+#line 101 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::DIGIT, (yyvsp[0].node), nullptr);}
-#line 1616 "BasicParser.cpp"
+#line 1624 "BasicParser.cpp"
     break;
 
   case 32: /* digit: INTEGER  */
-#line 107 "BISON.txt"
+#line 105 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::INTEGER, (yyvsp[0].num));}
-#line 1622 "BasicParser.cpp"
+#line 1630 "BasicParser.cpp"
     break;
 
   case 33: /* var: VARIABLE  */
-#line 111 "BISON.txt"
+#line 109 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::VARIABLE, (yyvsp[0].var));}
-#line 1628 "BasicParser.cpp"
+#line 1636 "BasicParser.cpp"
     break;
 
   case 34: /* string: STR  */
-#line 114 "BISON.txt"
+#line 112 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::STRING, (yyvsp[0].str));}
-#line 1634 "BasicParser.cpp"
+#line 1642 "BasicParser.cpp"
     break;
 
   case 35: /* relop: LT  */
-#line 118 "BISON.txt"
+#line 116 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::LT);}
-#line 1640 "BasicParser.cpp"
+#line 1648 "BasicParser.cpp"
     break;
 
   case 36: /* relop: LE  */
-#line 119 "BISON.txt"
+#line 117 "BISON.txt"
                                                                 {(yyval.node) = FabricNode::CreateNode(100, TypeNode::LE);}
-#line 1646 "BasicParser.cpp"
+#line 1654 "BasicParser.cpp"
     break;
 
   case 37: /* relop: GT  */
-#line 120 "BISON.txt"
+#line 118 "BISON.txt"
                                                                 {(yyval.node) = FabricNode::CreateNode(100, TypeNode::GT);}
-#line 1652 "BasicParser.cpp"
+#line 1660 "BasicParser.cpp"
     break;
 
   case 38: /* relop: GE  */
-#line 121 "BISON.txt"
+#line 119 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::GE);}
-#line 1658 "BasicParser.cpp"
+#line 1666 "BasicParser.cpp"
     break;
 
   case 39: /* relop: EQ  */
-#line 122 "BISON.txt"
+#line 120 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::EQ);}
-#line 1664 "BasicParser.cpp"
+#line 1672 "BasicParser.cpp"
     break;
 
   case 40: /* relop: NE  */
-#line 123 "BISON.txt"
+#line 121 "BISON.txt"
                                                             {(yyval.node) = FabricNode::CreateNode(100, TypeNode::NE);}
-#line 1670 "BasicParser.cpp"
+#line 1678 "BasicParser.cpp"
     break;
 
 
-#line 1674 "BasicParser.cpp"
+#line 1682 "BasicParser.cpp"
 
       default: break;
     }
@@ -1746,7 +1754,7 @@ yyerrlab:
           }
         yyerror (yymsgp);
         if (yysyntax_error_status == YYENOMEM)
-          YYNOMEM;
+          goto yyexhaustedlab;
       }
     }
 
@@ -1782,7 +1790,6 @@ yyerrorlab:
      label yyerrorlab therefore never appears in user code.  */
   if (0)
     YYERROR;
-  ++yynerrs;
 
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYERROR.  */
@@ -1843,7 +1850,7 @@ yyerrlab1:
 `-------------------------------------*/
 yyacceptlab:
   yyresult = 0;
-  goto yyreturnlab;
+  goto yyreturn;
 
 
 /*-----------------------------------.
@@ -1851,22 +1858,24 @@ yyacceptlab:
 `-----------------------------------*/
 yyabortlab:
   yyresult = 1;
-  goto yyreturnlab;
+  goto yyreturn;
 
 
-/*-----------------------------------------------------------.
-| yyexhaustedlab -- YYNOMEM (memory exhaustion) comes here.  |
-`-----------------------------------------------------------*/
+#if 1
+/*-------------------------------------------------.
+| yyexhaustedlab -- memory exhaustion comes here.  |
+`-------------------------------------------------*/
 yyexhaustedlab:
   yyerror (YY_("memory exhausted"));
   yyresult = 2;
-  goto yyreturnlab;
+  goto yyreturn;
+#endif
 
 
-/*----------------------------------------------------------.
-| yyreturnlab -- parsing is finished, clean up and return.  |
-`----------------------------------------------------------*/
-yyreturnlab:
+/*-------------------------------------------------------.
+| yyreturn -- parsing is finished, clean up and return.  |
+`-------------------------------------------------------*/
+yyreturn:
   if (yychar != YYEMPTY)
     {
       /* Make sure we have latest lookahead translation.  See comments at
@@ -1894,7 +1903,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 126 "BISON.txt"
+#line 124 "BISON.txt"
 
 
 void yyerror(const char *s) {

@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->StartButton->setDisabled(1);
+    this->show_MessageProtocol("Начало работы.")
+    //connect(this, SIGNAL(end_step(QString message)), this, SLOT(end_step_Protocol(QString text)));
 }
 
 MainWindow::~MainWindow()
@@ -22,14 +24,10 @@ MainWindow::~MainWindow()
 }
 
 
-
-
 void MainWindow::resetResultArea()
 {
 
 }
-
-
 
 
 void MainWindow::on_BrowseFile_triggered()
@@ -38,6 +36,7 @@ void MainWindow::on_BrowseFile_triggered()
     if (path.isEmpty())
     {
         ui->StartButton->setEnabled(0);
+
         return;
     }
     else
@@ -47,6 +46,7 @@ void MainWindow::on_BrowseFile_triggered()
         QFile f(PathToInputFile);
         f.open(QFile::ReadOnly);
         ui->BrowserInputText->append(f.readAll());
+        this->show_MessageProtocol("Успешное открытие файла " + PathToInputFile);
     }
 
 }
@@ -59,13 +59,25 @@ void MainWindow::on_StartButton_clicked()
         return;
     }
     ui->StartButton->setEnabled(0);
-    ui->BrowserProtocol->append("00:00. Начало транслирования файла: " + PathToInputFile);
+    //ui->BrowserProtocol->append("00:00. Начало транслирования файла: " + PathToInputFile);
+    this->show_MessageProtocol("Начало транслирования файла: " + PathToInputFile);
     QFile f(PathToInputFile);
     f.open(QFile::ReadOnly);
     QByteArray content(f.readAll());
     ParserProcessor parser(content);
     parser.BisonParser();
-    ui->BrowserProtocol->append("00:01. Синтаксический разбор: успешно");
-    ui->BrowserProtocol->append("00:02. DONE!");
+    this->show_MessageProtocol("Синтаксический разбор: успешно");
 }
 
+
+void MainWindow::on_AboutProgram_triggered()
+{
+    AboutProgramForm *f = new AboutProgramForm;
+    f->show();
+}
+
+void MainWindow::end_step_Protocol(QString text)
+{
+    QString time = QDateTime::currentDateTime().toString("HH:mm:ss");
+    ui->BrowserProtocol->append(time + ": " + text);
+}

@@ -34,6 +34,9 @@ set(PROJECT_SOURCES
         fabricnode.h
         fabricnode.cpp
         mainwindow.ui
+        aboutprogramform.h
+        aboutprogramform.cpp
+        aboutprogramform.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

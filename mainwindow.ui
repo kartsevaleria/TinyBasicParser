@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Tiny Basic Parser</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="StartButton">
@@ -81,7 +81,7 @@
     <property name="title">
      <string>Справка</string>
     </property>
-    <addaction name="action"/>
+    <addaction name="AboutProgram"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -97,7 +97,7 @@
     <string>Сохранить как...</string>
    </property>
   </action>
-  <action name="action">
+  <action name="AboutProgram">
    <property name="text">
     <string>О программе...</string>
    </property>
