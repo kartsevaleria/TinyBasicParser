@@ -51,8 +51,8 @@ block: block line                                           {$$ = FabricNode::Cr
 	 | line                                                 {$$ = FabricNode::CreateNode(100, TypeNode::LINE, $1, nullptr);}  
 	;
 
-line: number statement EOL                                  {$$ = FabricNode::CreateNode(100, TypeNode::NUM_STATM, $1, $2);}
-	| statement EOL                                         {$$ = FabricNode::CreateNode(100, TypeNode::STATM, $1, nullptr);}  
+line: number statement EOL                                  {$$ = FabricNode::CreateNode(100, TypeNode::NUM_STATM, $1, $2); lineno++;}
+	| statement EOL                                         {$$ = FabricNode::CreateNode(100, TypeNode::STATM, $1, nullptr); lineno++;}  
 	;
 
 statement:
