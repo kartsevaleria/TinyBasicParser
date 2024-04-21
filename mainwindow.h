@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "aboutprogramform.h"
 #include <QDateTime>
+#include "parserprocessor.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -24,10 +25,12 @@ private slots:
     void on_StartButton_clicked();
     void on_AboutProgram_triggered();
     void show_MessageProtocol(QString text);
+    void show_ErrorProtocol(QString text);
 
 private:
     Ui::MainWindow *ui;
     QString PathToInputFile;
+    ParserProcessor *parser;
     void resetResultArea();
     void addResultArea(int max, Qt::AlignmentFlag align);
 };

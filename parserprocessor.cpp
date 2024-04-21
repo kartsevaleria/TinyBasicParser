@@ -22,6 +22,12 @@ ParserProcessor::ParserProcessor(QByteArray data) : data(data)
 
 }
 
+void ParserProcessor::SetData(QByteArray d)
+{
+    data = d;
+}
+
+
 int ParserProcessor::BisonParser()
 {
     YY_BUFFER_STATE buffer = yy_scan_string(data.constData());

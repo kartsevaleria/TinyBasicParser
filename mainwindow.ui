@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>767</width>
-    <height>603</height>
+    <width>883</width>
+    <height>684</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>420</x>
       <y>0</y>
       <width>41</width>
       <height>31</height>
@@ -38,8 +38,8 @@
      <rect>
       <x>20</x>
       <y>40</y>
-      <width>731</width>
-      <height>501</height>
+      <width>841</width>
+      <height>581</height>
      </rect>
     </property>
     <property name="orientation">
@@ -66,8 +66,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>767</width>
-     <height>29</height>
+     <width>883</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
