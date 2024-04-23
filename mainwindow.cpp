@@ -15,8 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     this->parser = new ParserProcessor;
     ui->StartButton->setDisabled(1);
-    this->show_MessageProtocol("Начало работы.");
-    connect(parser, SIGNAL(ErrorToProtocol(QString text)), this, SLOT(show_ErrorProtocol(QString text)));
+    //this->show_MessageProtocol("Начало работы.");
+    QObject::connect(this, &MainWindow::MessageToProtocol, this, &MainWindow::show_MessageProtocol);
+    QObject::connect(parser, &ParserProcessor::ErrorToProtocol, this, &MainWindow::show_ErrorProtocol);
+    emit MessageToProtocol("Начало работы");
 }
 
 MainWindow::~MainWindow()
@@ -62,13 +64,13 @@ void MainWindow::on_StartButton_clicked()
         return;
     }
     ui->StartButton->setEnabled(0);
-    this->show_MessageProtocol("Начало транслирования файла: " + PathToInputFile);
+    emit MessageToProtocol("Начало транслирования файла: " + PathToInputFile);
     QFile f(PathToInputFile);
     f.open(QFile::ReadOnly);
     QByteArray content(f.readAll());
     parser->SetData(content);
     parser->BisonParser();
-    this->show_MessageProtocol("Синтаксический разбор: успешно");
+    emit MessageToProtocol("Синтаксический разбор: успешно");
 }
 
 

@@ -37,13 +37,11 @@ int ParserProcessor::BisonParser()
     try {
         retcode = yyparse();
     } catch(ParserException& e) {
-        qWarning() << QString("Parse error near line %1: %2").arg(e.lineNumber).arg(e.what).toUtf8().constData();
+        emit ErrorToProtocol(QString("Parse error near line %1: %2").arg(e.lineNumber).arg(e.what).toUtf8().constData());
         retcode = 1;
     }
 
-    if (retcode == 0) {
 
-    }
     return retcode;
 }
 

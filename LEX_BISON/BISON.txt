@@ -47,78 +47,78 @@ program: block	                                            {root = $1;
                                                             return 0; }  
 	;
 
-block: block line                                           {$$ = FabricNode::CreateNode(100, TypeNode::BLOCK_LINE, $1, $2);}  
-	 | line                                                 {$$ = FabricNode::CreateNode(100, TypeNode::LINE, $1, nullptr);}  
+block: block line                                           {$$ = FabricNode::CreateNode(lineno, TypeNode::BLOCK_LINE, $1, $2);}  
+	 | line                                                 {$$ = FabricNode::CreateNode(lineno, TypeNode::LINE, $1, nullptr);}  
 	;
 
-line: number statement EOL                                  {$$ = FabricNode::CreateNode(100, TypeNode::NUM_STATM, $1, $2); lineno++;}
-	| statement EOL                                         {$$ = FabricNode::CreateNode(100, TypeNode::STATM, $1, nullptr); lineno++;}  
+line: number statement EOL                                  {$$ = FabricNode::CreateNode(lineno, TypeNode::NUM_STATM, $1, $2); lineno++;}
+	| statement EOL                                         {$$ = FabricNode::CreateNode(lineno, TypeNode::STATM, $1, nullptr); lineno++;}  
 	;
 
 statement:
-    PRINT expr_list                                         {$$ = FabricNode::CreateNode(100, TypeNode::PRINT, $2, nullptr);}
-    | REM string                                            {$$ = FabricNode::CreateNode(100, TypeNode::REM, $2, nullptr);}   
-    | DIM var_list                                          {$$ = FabricNode::CreateNode(100, TypeNode::DIM, $2, nullptr);}                 
-    | IF expression relop expression THEN statement         {$$ = FabricNode::CreateNode(100, TypeNode::IF_THEN, $2, $3, $4, $6);}
-    | GOSUB expression                                      {$$ = FabricNode::CreateNode(100, TypeNode::GOSUB, $2, nullptr);}               
-    | INPUT var_list                                        {$$ = FabricNode::CreateNode(100, TypeNode::INPUT, $2, nullptr);}                 
-    | LET var EQ expression                                 {$$ = FabricNode::CreateNode(100, TypeNode::LET, $2, $4);}
-    | RETURN                                                {$$ = FabricNode::CreateNode(100, TypeNode::RETRN, nullptr, nullptr);}                          
+    PRINT expr_list                                         {$$ = FabricNode::CreateNode(lineno, TypeNode::PRINT, $2, nullptr);}
+    | REM string                                            {$$ = FabricNode::CreateNode(lineno, TypeNode::REM, $2, nullptr);}   
+    | DIM var_list                                          {$$ = FabricNode::CreateNode(lineno, TypeNode::DIM, $2, nullptr);}                 
+    | IF expression relop expression THEN statement         {$$ = FabricNode::CreateNode(lineno, TypeNode::IF_THEN, $2, $3, $4, $6);}
+    | GOSUB expression                                      {$$ = FabricNode::CreateNode(lineno, TypeNode::GOSUB, $2, nullptr);}               
+    | INPUT var_list                                        {$$ = FabricNode::CreateNode(lineno, TypeNode::INPUT, $2, nullptr);}                 
+    | LET var EQ expression                                 {$$ = FabricNode::CreateNode(lineno, TypeNode::LET, $2, $4);}
+    | RETURN                                                {$$ = FabricNode::CreateNode(lineno, TypeNode::RETRN, nullptr, nullptr);}                          
     ;
 
 expr_list:
-    expr_list','expression                                  {$$ = FabricNode::CreateNode(100, TypeNode::EXPR_LST, $1, $3);}
-    | expression 	                                        {$$ = FabricNode::CreateNode(100, TypeNode::EXPRESSION, $1, nullptr);}
-    | string		                                        {$$ = FabricNode::CreateNode(100, TypeNode::STR, $1, nullptr);}
-    | expr_list','string                                    {$$ = FabricNode::CreateNode(100, TypeNode::EXPR_LST, $1, $3);}
+    expr_list','expression                                  {$$ = FabricNode::CreateNode(lineno, TypeNode::EXPR_LST, $1, $3);}
+    | expression 	                                        {$$ = FabricNode::CreateNode(lineno, TypeNode::EXPRESSION, $1, nullptr);}
+    | string		                                        {$$ = FabricNode::CreateNode(lineno, TypeNode::STR, $1, nullptr);}
+    | expr_list','string                                    {$$ = FabricNode::CreateNode(lineno, TypeNode::EXPR_LST, $1, $3);}
     ;
 
 var_list:
-    var_list','var                                          {$$ = FabricNode::CreateNode(100, TypeNode::VAR_LST, $1, $3);}
-    | var                                                   {$$ = FabricNode::CreateNode(100, TypeNode::VAR, $1, nullptr);}
+    var_list','var                                          {$$ = FabricNode::CreateNode(lineno, TypeNode::VAR_LST, $1, $3);}
+    | var                                                   {$$ = FabricNode::CreateNode(lineno, TypeNode::VAR, $1, nullptr);}
     ;
 
 expression:
-    expression'+'term                                       {$$ = FabricNode::CreateNode(100, TypeNode::EX_ADD_TERM, $1, $3);}                  
-    | expression'-'term                                     {$$ = FabricNode::CreateNode(100, TypeNode::EX_SUB_TERM, $1, $3);}
-    | term                                                  {$$ = FabricNode::CreateNode(100, TypeNode::TERM, $1, nullptr);}
+    expression'+'term                                       {$$ = FabricNode::CreateNode(lineno, TypeNode::EX_ADD_TERM, $1, $3);}                  
+    | expression'-'term                                     {$$ = FabricNode::CreateNode(lineno, TypeNode::EX_SUB_TERM, $1, $3);}
+    | term                                                  {$$ = FabricNode::CreateNode(lineno, TypeNode::TERM, $1, nullptr);}
     ;
 
 term:
-    term'*'factor                                           {$$ = FabricNode::CreateNode(100, TypeNode::TERM_MALT_FACT, $1, $3);}
-    | term'/'factor                                         {$$ = FabricNode::CreateNode(100, TypeNode::TERM_DIVIDE_FACT, $1, $3);}
-    | factor                                                {$$ = FabricNode::CreateNode(100, TypeNode::FACTOR, $1, nullptr);}
+    term'*'factor                                           {$$ = FabricNode::CreateNode(lineno, TypeNode::TERM_MALT_FACT, $1, $3);}
+    | term'/'factor                                         {$$ = FabricNode::CreateNode(lineno, TypeNode::TERM_DIVIDE_FACT, $1, $3);}
+    | factor                                                {$$ = FabricNode::CreateNode(lineno, TypeNode::FACTOR, $1, nullptr);}
     ;
 
 factor:
-    var                                                     {$$ = FabricNode::CreateNode(100, TypeNode::VAR, $1, nullptr);}
-    | number                                                {$$ = FabricNode::CreateNode(100, TypeNode::NUMBER, $1, nullptr);}
-    | '('expression')'	                                    {$$ = FabricNode::CreateNode(100, TypeNode::EXPRESSION, $2, nullptr);}
+    var                                                     {$$ = FabricNode::CreateNode(lineno, TypeNode::VAR, $1, nullptr);}
+    | number                                                {$$ = FabricNode::CreateNode(lineno, TypeNode::NUMBER, $1, nullptr);}
+    | '('expression')'	                                    {$$ = FabricNode::CreateNode(lineno, TypeNode::EXPRESSION, $2, nullptr);}
     ;
 
 number:
-    number digit                                            {$$ = FabricNode::CreateNode(100, TypeNode::NUMBER_DG, $1, $2);}
-    | digit                                                 {$$ = FabricNode::CreateNode(100, TypeNode::DIGIT, $1, nullptr);}
+    number digit                                            {$$ = FabricNode::CreateNode(lineno, TypeNode::NUMBER_DG, $1, $2);}
+    | digit                                                 {$$ = FabricNode::CreateNode(lineno, TypeNode::DIGIT, $1, nullptr);}
     ;
 
 digit:
-    INTEGER                                                 {$$ = FabricNode::CreateNode(100, TypeNode::INTEGER, $1);}
+    INTEGER                                                 {$$ = FabricNode::CreateNode(lineno, TypeNode::INTEGER, $1);}
     ;
 
 var:
-    VARIABLE                                                {$$ = FabricNode::CreateNode(100, TypeNode::VARIABLE, $1);}
+    VARIABLE                                                {$$ = FabricNode::CreateNode(lineno, TypeNode::VARIABLE, $1);}
     ;
 string:
-    STR	                                                    {$$ = FabricNode::CreateNode(100, TypeNode::STRING, $1);}
+    STR	                                                    {$$ = FabricNode::CreateNode(lineno, TypeNode::STRING, $1);}
      ;
 
 relop:
-    LT	                                                    {$$ = FabricNode::CreateNode(100, TypeNode::LT);}
-    | LE	                                                {$$ = FabricNode::CreateNode(100, TypeNode::LE);}
-    | GT	                                                {$$ = FabricNode::CreateNode(100, TypeNode::GT);}
-    | GE                                                    {$$ = FabricNode::CreateNode(100, TypeNode::GE);}
-    | EQ                                                    {$$ = FabricNode::CreateNode(100, TypeNode::EQ);}
-    | NE                                                    {$$ = FabricNode::CreateNode(100, TypeNode::NE);}
+    LT	                                                    {$$ = FabricNode::CreateNode(lineno, TypeNode::LT);}
+    | LE	                                                {$$ = FabricNode::CreateNode(lineno, TypeNode::LE);}
+    | GT	                                                {$$ = FabricNode::CreateNode(lineno, TypeNode::GT);}
+    | GE                                                    {$$ = FabricNode::CreateNode(lineno, TypeNode::GE);}
+    | EQ                                                    {$$ = FabricNode::CreateNode(lineno, TypeNode::EQ);}
+    | NE                                                    {$$ = FabricNode::CreateNode(lineno, TypeNode::NE);}
     ;
 
 %%

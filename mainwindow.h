@@ -24,6 +24,8 @@ private slots:
     void on_BrowseFile_triggered();
     void on_StartButton_clicked();
     void on_AboutProgram_triggered();
+
+public slots:
     void show_MessageProtocol(QString text);
     void show_ErrorProtocol(QString text);
 
@@ -33,5 +35,8 @@ private:
     ParserProcessor *parser;
     void resetResultArea();
     void addResultArea(int max, Qt::AlignmentFlag align);
+
+signals:
+    void MessageToProtocol(QString text);
 };
 #endif // MAINWINDOW_H
