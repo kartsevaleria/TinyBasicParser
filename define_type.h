@@ -1,6 +1,8 @@
 #ifndef DEFINE_TYPE_H
 #define DEFINE_TYPE_H
 
+#include <QString>
+
 typedef enum class TypeNode
 {
     NE = 1,
@@ -39,5 +41,6 @@ typedef enum class TypeNode
     LINE = 34,
     BLOCK_LINE = 35
 } TypeNode;
+
 
 #endif // DEFINE_TYPE_H

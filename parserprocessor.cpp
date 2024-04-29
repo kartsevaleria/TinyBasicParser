@@ -4,6 +4,7 @@
 
 #include "BasicParser.h"
 #include "BasicScanner.h"
+#include <memory>
 
 extern VirtualBaseNode* root;
 
@@ -41,8 +42,42 @@ int ParserProcessor::BisonParser()
         retcode = 1;
     }
 
-
     return retcode;
 }
 
+//Записывать не во временный файл, а в буфеер ОП?
+ int ParserProcessor::Translation()
+ {
+     //std::shared_ptr<ListStringResult> root_result (new ListStringResult);
+     ToPython(root, "");
+     return 0;
+ }
 
+void ParserProcessor::ToPython(VirtualBaseNode *node, QString result)
+{
+    if(node == nullptr)
+        return;
+
+    switch (node->GetType())
+    {
+    case TypeNode::LINE:
+    {
+        if(result.isEmpty())
+            break;
+        else
+        {
+            ListPythonString.push_back(result);
+            result = "";
+            break;
+        }
+
+    }
+    default:
+        break;
+    }
+
+    auto VectorNextNode = node->GetVectorNodes();
+    for (auto i = VectorNextNode.begin(); i < VectorNextNode.end(); i++)
+        ToPython(*i, result);
+
+}

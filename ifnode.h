@@ -5,6 +5,7 @@
 #include "define_type.h"
 #include <iostream>
 #include <memory>
+#include <vector>
 
 
 class IfNode : public VirtualBaseNode
@@ -16,28 +17,22 @@ private:
     VirtualBaseNode* relop;
     TypeNode type;
     int lineno;
+    std::vector<VirtualBaseNode*> VectorChild;
 public:
     IfNode(int line, TypeNode t, VirtualBaseNode* ls, VirtualBaseNode* rs, VirtualBaseNode* ts, VirtualBaseNode* rlp) :
-        left_stat(ls), rigth_stat(rs), then_stat(ts), relop(rlp), type(t), lineno(line) {};
+        left_stat(ls), rigth_stat(rs), then_stat(ts), relop(rlp), type(t), lineno(line)
+    {
+        VectorChild.push_back(left_stat);
+        VectorChild.push_back(relop);
+        VectorChild.push_back(rigth_stat);
+        VectorChild.push_back(then_stat);
+    }
 
     TypeNode GetType() override { return this->type; }
     int GetLineno() override { return this->lineno; }
     std::string GetValue() override { return "ERROR"; }
 
-    void NextStepDown() override
-    {
-      if (this->left_stat != nullptr)
-        this->left_stat->NextStepDown();
-
-      if (this->rigth_stat != nullptr)
-        this->rigth_stat->NextStepDown();
-
-      if (this->then_stat != nullptr)
-        this->then_stat->NextStepDown();
-
-      if (this->relop != nullptr)
-        this->relop->NextStepDown();
-    }
+    std::vector<VirtualBaseNode*> GetVectorNodes() override { return VectorChild; }
 
 };
 

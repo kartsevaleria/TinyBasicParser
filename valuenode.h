@@ -11,17 +11,19 @@ private:
     TypeNode type;
     int lineno;
     std::string value;
+    std::vector<VirtualBaseNode*> VectorChild;
 public:
-    ValueNode(int line, TypeNode t, std::string val): type(t), lineno(line), value(val) {};
+    ValueNode(int line, TypeNode t, std::string val): type(t), lineno(line), value(val)
+    {
+        VectorChild.push_back(nullptr);
+        VectorChild.push_back(nullptr);
+    }
 
     TypeNode GetType() override { return this->type; }
     int GetLineno() override { return this->lineno; }
     std::string GetValue() override { return this->value; }
 
-    void NextStepDown() override
-    {
-      return;
-    }
+    std::vector<VirtualBaseNode*> GetVectorNodes() override { return VectorChild; }
 
 };
 

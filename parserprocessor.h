@@ -8,6 +8,7 @@
 #include "BasicParser.h"
 #include "BasicScanner.h"
 #include <QObject>
+#include <list>
 
 class YYBufferGuard
 {
@@ -22,6 +23,8 @@ class ParserProcessor : public QObject
     Q_OBJECT
 private:
     QByteArray data;
+    std::list<QString> ListPythonString;
+    void ToPython(VirtualBaseNode* node, QString result);
 public:
     ParserProcessor(QByteArray data);
     ParserProcessor() {};
