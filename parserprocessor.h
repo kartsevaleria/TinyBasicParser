@@ -34,6 +34,7 @@ public:
     void SetData(QByteArray d);
 signals:
     void ErrorToProtocol(QString text);
+    void ResultToArea(QString text);
 };
 
 #endif // PARSERPROCESSOR_H

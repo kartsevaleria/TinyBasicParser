@@ -28,6 +28,7 @@ private slots:
 public slots:
     void show_MessageProtocol(QString text);
     void show_ErrorProtocol(QString text);
+    void print_ResultToArea(QString text);
 
 private:
     Ui::MainWindow *ui;

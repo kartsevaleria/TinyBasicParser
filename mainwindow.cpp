@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     //this->show_MessageProtocol("Начало работы.");
     QObject::connect(this, &MainWindow::MessageToProtocol, this, &MainWindow::show_MessageProtocol);
     QObject::connect(parser, &ParserProcessor::ErrorToProtocol, this, &MainWindow::show_ErrorProtocol);
+    QObject::connect(parser, &ParserProcessor::ResultToArea, this, &MainWindow::print_ResultToArea);
     emit MessageToProtocol("Начало работы");
 }
 
@@ -93,4 +94,9 @@ void MainWindow::show_ErrorProtocol(QString text)
     QString time = QDateTime::currentDateTime().toString("HH:mm:ss");
     ui->BrowserProtocol->setTextBackgroundColor(QColor(255, 0, 0, 127));
     ui->BrowserProtocol->append("ERROR " + time + ": " + text);
+}
+
+void MainWindow::print_ResultToArea(QString text)
+{
+    ui->BrowserOutputText->append(text);
 }

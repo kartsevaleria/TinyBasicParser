@@ -61,15 +61,20 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString result)
     switch (node->GetType())
     {
     case TypeNode::LINE:
+    { 
+            break;
+    }
+    case TypeNode::RETRN:
     {
-        if(result.isEmpty())
-            break;
-        else
-        {
-            ListPythonString.push_back(result);
-            result = "";
-            break;
-        }
+        emit ResultToArea("return");
+        break;
+    }
+    case TypeNode::IF_THEN:
+    {
+        auto VectorIfNode = node->GetVectorNodes();
+        emit ResultToArea("if ");
+        //Вызов функции для левого
+        this->ToPython(VectorIfNode[0], result);
 
     }
     default:
