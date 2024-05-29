@@ -55,32 +55,155 @@ int ParserProcessor::BisonParser()
 
 void ParserProcessor::ToPython(VirtualBaseNode *node, QString result)
 {
-    if(node == nullptr)
+    if(node == nullptr || node->GetVisitFlag() == true)
         return;
 
+    node->SetEnabledVisitFlag();
     switch (node->GetType())
     {
-    case TypeNode::LINE:
-    { 
-            break;
-    }
-    case TypeNode::RETRN:
-    {
-        emit ResultToArea("return");
-        break;
-    }
     case TypeNode::IF_THEN:
     {
         auto VectorIfNode = node->GetVectorNodes();
-        emit ResultToArea("if ");
+        result = "if ";
+
+        //emit ResultToArea("if ");
         //Вызов функции для левого
         this->ToPython(VectorIfNode[0], result);
 
+    }
+    case TypeNode::LET:
+    {
+        auto VectorNextNode = node->GetVectorNodes();
+        for (auto i = VectorNextNode.begin(); i < VectorNextNode.end(); i++)
+             ToPython(*i, result);
+
+        break;
+    }
+    case TypeNode::RETRN:
+    {
+        result = "return";
+        break;
+    }
+    case TypeNode::EXPR_LST:
+    {
+        auto VectorNextNode = node->GetVectorNodes();
+        for (auto i = VectorNextNode.begin(); i < VectorNextNode.end(); i++)
+        {
+             ToPython(*i, result);
+             result += " ,";
+        }
+
+        break;
+    }
+    case TypeNode::VAR_LST:
+    {
+        auto VectorNextNode = node->GetVectorNodes();
+        for (auto i = VectorNextNode.begin(); i < VectorNextNode.end(); i++)
+        {
+             ToPython(*i, result);
+             result += " ,";
+        }
+
+        break;
+    }
+    case TypeNode::EX_SUB_TERM:
+    {
+        auto VectorNextNode = node->GetVectorNodes();
+        ToPython(VectorNextNode[0], result);
+        result += " - ";
+        ToPython(VectorNextNode[1], result);
+        break;
+    }
+    case TypeNode::EX_ADD_TERM:
+    {
+        auto VectorNextNode = node->GetVectorNodes();
+        ToPython(VectorNextNode[0], result);
+        result += " + ";
+        ToPython(VectorNextNode[1], result);
+        break;
+    }
+    case TypeNode::TERM_MALT_FACT:
+    {
+        auto VectorNextNode = node->GetVectorNodes();
+        ToPython(VectorNextNode[0], result);
+        result += " * ";
+        ToPython(VectorNextNode[1], result);
+        break;
+    }
+    case TypeNode::TERM_DIVIDE_FACT:
+    {
+        auto VectorNextNode = node->GetVectorNodes();
+        ToPython(VectorNextNode[0], result);
+        result += " / ";
+        ToPython(VectorNextNode[1], result);
+        break;
+    }
+    case TypeNode::EXPRESSION:
+    {
+        result += "( ";
+        auto VectorNextNode = node->GetVectorNodes();
+        ToPython(VectorNextNode[0], result);
+        result += " )";
+        break;
+    }
+    case TypeNode::INTEGER:
+    {
+        result += QString::fromStdString(node->GetValue());
+        break;
+    }
+    case TypeNode::NUMBER_DG:
+    {
+        auto VectorNextNode = node->GetVectorNodes();
+        for (auto i = VectorNextNode.begin(); i < VectorNextNode.end(); i++)
+            ToPython(*i, result);
+        break;
+    }
+    case TypeNode::VARIABLE:
+    {
+        result += QString::fromStdString(node->GetValue());
+        break;
+    }
+    case TypeNode::STRING:
+    {
+        result += QString::fromStdString(node->GetValue());
+        break;
+    }
+    case TypeNode::LT:
+    {
+        result += " < ";
+        break;
+    }
+    case TypeNode::LE:
+    {
+        result += " <= ";
+        break;
+    }
+    case TypeNode::GT:
+    {
+        result += " > ";
+        break;
+    }
+    case TypeNode::GE:
+    {
+        result += " >= ";
+        break;
+    }
+    case TypeNode::EQ:
+    {
+        result += " == ";
+        break;
+    }
+    case TypeNode::NE:
+    {
+        result += " != ";
+        break;
     }
     default:
         break;
     }
 
+    emit ResultToArea(result);
+    result.clear();
     auto VectorNextNode = node->GetVectorNodes();
     for (auto i = VectorNextNode.begin(); i < VectorNextNode.end(); i++)
         ToPython(*i, result);

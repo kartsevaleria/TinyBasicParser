@@ -13,8 +13,9 @@ public:
 
     //relop, variable, string, int
     virtual std::string GetValue() = 0;
-
     virtual std::vector<VirtualBaseNode*> GetVectorNodes() = 0;
+    virtual void SetEnabledVisitFlag();
+    virtual bool GetVisitFlag();
     virtual ~VirtualBaseNode() = default;
 
 };

@@ -12,18 +12,20 @@ private:
     TypeNode type;
     int lineno;
     std::vector<VirtualBaseNode*> VectorChild;
+    bool visitFlag;
 public:
     RelopNode(int line, TypeNode t): type(t), lineno(line)
     {
         VectorChild.push_back(nullptr);
         VectorChild.push_back(nullptr);
+        visitFlag = false;
     }
 
     TypeNode GetType() override { return this->type; }
     int GetLineno() override { return this->lineno; }
     std::string GetValue() override { return "ERROR"; }
-
-     std::vector<VirtualBaseNode*> GetVectorNodes() override { return VectorChild; }
+    void SetEnabledVisitFlag() override { visitFlag = true; }
+    std::vector<VirtualBaseNode*> GetVectorNodes() override { return VectorChild; }
 
 };
 
