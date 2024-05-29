@@ -35,7 +35,7 @@ public:
     std::string GetValue() override { return "ERROR"; }
     void SetEnabledVisitFlag() override { visitFlag = true; }
     std::vector<VirtualBaseNode*> GetVectorNodes() override { return VectorChild; }
-
+    bool GetVisitFlag() override { return this->visitFlag; }
 };
 
 #endif // IFNODE_H
