@@ -93,7 +93,7 @@ term:
 factor:
     var                                                     {$$ = FabricNode::CreateNode(lineno, TypeNode::VAR, $1, nullptr);}
     | number                                                {$$ = FabricNode::CreateNode(lineno, TypeNode::NUMBER, $1, nullptr);}
-    | '('expression')'	                                    {$$ = FabricNode::CreateNode(lineno, TypeNode::EXPRESSION, $2, nullptr);}
+    | '('expression')'	                                    {$$ = FabricNode::CreateNode(lineno, TypeNode::EXPRESSION_ALLOC, $2, nullptr);}
     ;
 
 number:
