@@ -37,6 +37,8 @@ set(PROJECT_SOURCES
         aboutprogramform.h
         aboutprogramform.cpp
         aboutprogramform.ui
+        semanticinfo.h
+        semanticinfo.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
