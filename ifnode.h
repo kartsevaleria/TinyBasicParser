@@ -20,7 +20,7 @@ private:
     std::vector<VirtualBaseNode*> VectorChild;
     bool visitFlag;
 public:
-    IfNode(int line, TypeNode t, VirtualBaseNode* ls, VirtualBaseNode* rs, VirtualBaseNode* ts, VirtualBaseNode* rlp) :
+    IfNode(int line, TypeNode t, VirtualBaseNode* ls, VirtualBaseNode* rlp, VirtualBaseNode* rs, VirtualBaseNode* ts) :
         left_stat(ls), rigth_stat(rs), then_stat(ts), relop(rlp), type(t), lineno(line)
     {
         VectorChild.push_back(left_stat);

@@ -24,7 +24,7 @@ class ParserProcessor : public QObject
 private:
     QByteArray data;
     std::list<QString> ListPythonString;
-    void ToPython(VirtualBaseNode* node, QString result);
+    void ToPython(VirtualBaseNode* node, QString &result);
 public:
     ParserProcessor(QByteArray data);
     ParserProcessor() {};

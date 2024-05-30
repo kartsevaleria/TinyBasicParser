@@ -39,7 +39,8 @@ typedef enum class TypeNode
     STATM = 32,
     NUM_STATM = 33,
     LINE = 34,
-    BLOCK_LINE = 35
+    BLOCK_LINE = 35,
+    EXPRESSION_ALLOC = 36
 } TypeNode;
 
 

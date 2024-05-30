@@ -45,43 +45,95 @@ int ParserProcessor::BisonParser()
     return retcode;
 }
 
+int ParserProcessor::SemanticAnalys()
+{
+    //Повторное объявление переменной
+    //госаб без return или на несуществующую строку
+    //Номера строки не по порядку
+    return 0;
+}
+
 //Записывать не во временный файл, а в буфеер ОП?
  int ParserProcessor::Translation()
  {
-     //std::shared_ptr<ListStringResult> root_result (new ListStringResult);
-     ToPython(root, "");
+     QString line;
+     ToPython(root, line);
      return 0;
  }
 
-void ParserProcessor::ToPython(VirtualBaseNode *node, QString result)
+ //Добавить input и gosub
+void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result)
 {
     if(node == nullptr || node->GetVisitFlag() == true)
         return;
 
     node->SetEnabledVisitFlag();
+    bool printFlag = false;
     switch (node->GetType())
     {
+    case TypeNode::INPUT:
+    {
+        auto VectorInputNode = node->GetVectorNodes();
+        ToPython(VectorInputNode[0], result);
+        result += " = int(input())";
+        printFlag = true;
+        break;
+    }
+    case TypeNode::PRINT:
+    {
+       result += "print( ";
+       auto VectorPrintNode = node->GetVectorNodes();
+       ToPython(VectorPrintNode[0], result);
+       result += ")";
+       printFlag = true;
+       break;
+    }
+    case TypeNode::DIM:
+    {
+        auto VectorNextNode = node->GetVectorNodes();
+        ToPython(VectorNextNode[0], result);
+        result += "None";
+        printFlag = true;
+        break;
+    }
+    case TypeNode::REM:
+    {
+        result += "#";
+        auto VectorNextNode = node->GetVectorNodes();
+        ToPython(VectorNextNode[0], result);
+        printFlag = true;
+        break;
+    }
+    case TypeNode::GOSUB:
+    {
+        break;
+    }
     case TypeNode::IF_THEN:
     {
         auto VectorIfNode = node->GetVectorNodes();
         result = "if ";
-
-        //emit ResultToArea("if ");
-        //Вызов функции для левого
         this->ToPython(VectorIfNode[0], result);
-
+        this->ToPython(VectorIfNode[1], result);
+        this->ToPython(VectorIfNode[2], result);
+        result += ": \n";
+        result += '\t';
+        this->ToPython(VectorIfNode[3], result);
+        printFlag = true;
+        break;
     }
     case TypeNode::LET:
     {
         auto VectorNextNode = node->GetVectorNodes();
-        for (auto i = VectorNextNode.begin(); i < VectorNextNode.end(); i++)
-             ToPython(*i, result);
-
+        ToPython(VectorNextNode[0], result);
+        result += " = ";
+        ToPython(VectorNextNode[1], result);
+        printFlag = true;
         break;
     }
     case TypeNode::RETRN:
     {
         result = "return";
+        printFlag = true;
         break;
     }
     case TypeNode::EXPR_LST:
@@ -92,7 +144,6 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString result)
              ToPython(*i, result);
              result += " ,";
         }
-
         break;
     }
     case TypeNode::VAR_LST:
@@ -120,7 +171,7 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString result)
         ToPython(VectorNextNode[0], result);
         result += " + ";
         ToPython(VectorNextNode[1], result);
-        break;
+        return;
     }
     case TypeNode::TERM_MALT_FACT:
     {
@@ -138,7 +189,7 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString result)
         ToPython(VectorNextNode[1], result);
         break;
     }
-    case TypeNode::EXPRESSION:
+    case TypeNode::EXPRESSION_ALLOC:
     {
         result += "( ";
         auto VectorNextNode = node->GetVectorNodes();
@@ -149,61 +200,64 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString result)
     case TypeNode::INTEGER:
     {
         result += QString::fromStdString(node->GetValue());
-        break;
+        return;
     }
     case TypeNode::NUMBER_DG:
     {
         auto VectorNextNode = node->GetVectorNodes();
         for (auto i = VectorNextNode.begin(); i < VectorNextNode.end(); i++)
             ToPython(*i, result);
-        break;
+        return;
     }
     case TypeNode::VARIABLE:
     {
         result += QString::fromStdString(node->GetValue());
-        break;
+        return;
     }
     case TypeNode::STRING:
     {
         result += QString::fromStdString(node->GetValue());
-        break;
+        return;
     }
     case TypeNode::LT:
     {
         result += " < ";
-        break;
+        return;
     }
     case TypeNode::LE:
     {
         result += " <= ";
-        break;
+        return;
     }
     case TypeNode::GT:
     {
         result += " > ";
-        break;
+        return;
     }
     case TypeNode::GE:
     {
         result += " >= ";
-        break;
+        return;
     }
     case TypeNode::EQ:
     {
         result += " == ";
-        break;
+        return;
     }
     case TypeNode::NE:
     {
         result += " != ";
-        break;
+        return;
     }
     default:
         break;
     }
+    if(!result.isEmpty() && printFlag)
+    {
+        emit ResultToArea(result);
+        result.clear();
+    }
 
-    emit ResultToArea(result);
-    result.clear();
     auto VectorNextNode = node->GetVectorNodes();
     for (auto i = VectorNextNode.begin(); i < VectorNextNode.end(); i++)
         ToPython(*i, result);

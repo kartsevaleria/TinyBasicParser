@@ -72,6 +72,7 @@ void MainWindow::on_StartButton_clicked()
     parser->SetData(content);
     parser->BisonParser();
     emit MessageToProtocol("Синтаксический разбор: успешно");
+    parser->Translation();
 
 }
 

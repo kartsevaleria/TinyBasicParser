@@ -86,7 +86,7 @@ extern int yydebug;
 #include "virtualbasenode.h"
 union YYSTYPE
 {
-#line 22 "BISON.txt"
+#line 22 "./BISON.txt"
 
     VirtualBaseNode* node;
     char* num;
