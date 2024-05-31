@@ -13,8 +13,8 @@ private:
     std::vector<int> numStringReturn;
     std::vector<int> numStringGOSUB;
 public:
-    //SemanticInfo(VirtualBaseNode r)
-    void FillInfo();
+    SemanticInfo();
+    void FillInfo(VirtualBaseNode* node);
 };
 
 #endif // SEMANTICINFO_H
