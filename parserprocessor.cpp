@@ -47,9 +47,12 @@ int ParserProcessor::BisonParser()
 
 int ParserProcessor::SemanticAnalys()
 {
-    //Повторное объявление переменной
-    //госаб без return или на несуществующую строку
-    //Номера строки не по порядку
+    //Как хранить номера строк?
+    SemanticInfo semanticInfo(root);
+    semanticInfo.FillInfo();
+    std::vector<int> numStr = semanticInfo.GetVectorNumerationStr();
+    if(!std::is_sorted(numStr.begin(), numStr.end()))
+        emit ErrorToProtocol(QString("Semantic error near line %1: %2"));
     return 0;
 }
 

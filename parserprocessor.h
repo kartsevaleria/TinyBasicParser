@@ -7,6 +7,7 @@
 #include "common.h"
 #include "BasicParser.h"
 #include "BasicScanner.h"
+#include "semanticinfo.h"
 #include <QObject>
 #include <list>
 
