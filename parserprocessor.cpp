@@ -41,27 +41,41 @@ int ParserProcessor::BisonParser()
         emit ErrorToProtocol(QString("Parse error near line %1: %2").arg(e.lineNumber).arg(e.what).toUtf8().constData());
         retcode = 1;
     }
-
     return retcode;
 }
 
-int ParserProcessor::SemanticAnalys()
+void ParserProcessor::SemanticAnalys()
 {
     //Как хранить номера строк?
     SemanticInfo semanticInfo(root);
     semanticInfo.FillInfo();
-    std::vector<int> numStr = semanticInfo.GetVectorNumerationStr();
-    if(!std::is_sorted(numStr.begin(), numStr.end()))
-        emit ErrorToProtocol(QString("Semantic error near line %1: %2"));
-    return 0;
+
+    std::vector<int>* numStr = semanticInfo.GetVectorNumerationStr();
+    if(!std::is_sorted(numStr->begin(), numStr->end()))
+        throw ParserException{0, QString("Нумерация строк не по порядку")};
+
+    std::map<int, char>* declarationVar = semanticInfo.GetMapDeclarationVar();
+    for(auto it : *declarationVar)
+    {
+        for(auto it_next : *declarationVar)
+        {
+            if(it_next.second == it.second && it_next.first != it.first)
+                throw ParserException {it_next.first, (QString("Повторное объявление переменной %1 в строке %2").arg(it_next.second).arg(it_next.first))};
+        }
+    }
+
+    //std::vector<int>* numReturn = semanticInfo.GetNumStrReturn();
+    //std::vector<int>* numGoSub = semanticInfo.GetNumStrGoSub();
+
+
+    //if(numGoSub->size() != numReturn->size())
+       // throw ParserException{0, QString("Оператор GOSUB не имеет RETURN строка %1").arg(*numGoSub->end())};
 }
 
-//Записывать не во временный файл, а в буфеер ОП?
- int ParserProcessor::Translation()
+void ParserProcessor::Translation()
  {
      QString line;
      ToPython(root, line);
-     return 0;
  }
 
  //Добавить input и gosub
@@ -95,7 +109,7 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result)
     {
         auto VectorNextNode = node->GetVectorNodes();
         ToPython(VectorNextNode[0], result);
-        result += "None";
+        result += " = None";
         printFlag = true;
         break;
     }

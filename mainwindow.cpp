@@ -7,7 +7,7 @@
 #include <QLabel>
 #include <QSpinBox>
 
-    //add signal/slot for protocol
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->StartButton->setDisabled(1);
     //this->show_MessageProtocol("Начало работы.");
     QObject::connect(this, &MainWindow::MessageToProtocol, this, &MainWindow::show_MessageProtocol);
+    QObject::connect(this, &MainWindow::ErrorToProtocol, this, &MainWindow::show_ErrorProtocol);
     QObject::connect(parser, &ParserProcessor::ErrorToProtocol, this, &MainWindow::show_ErrorProtocol);
     QObject::connect(parser, &ParserProcessor::ResultToArea, this, &MainWindow::print_ResultToArea);
     emit MessageToProtocol("Начало работы");
@@ -69,11 +70,24 @@ void MainWindow::on_StartButton_clicked()
     QFile f(PathToInputFile);
     f.open(QFile::ReadOnly);
     QByteArray content(f.readAll());
-    parser->SetData(content);
-    parser->BisonParser();
-    emit MessageToProtocol("Синтаксический разбор: успешно");
-    parser->Translation();
 
+    this->ui->BrowserOutputText->clear();
+    parser->SetData(content);
+    if(parser->BisonParser() != 0)
+        return;
+    emit MessageToProtocol("Синтаксический разбор: успешно");
+
+    try {
+        parser->SemanticAnalys();
+    }  catch (ParserException &e) {
+        emit ErrorToProtocol(QString("Semantic error: %1").arg(e.what));
+        return;
+    }
+
+    emit MessageToProtocol("Семантический разбор: успешно");
+
+    parser->Translation();
+    emit MessageToProtocol("Трансляция: успешно");
 }
 
 
@@ -94,7 +108,7 @@ void MainWindow::show_ErrorProtocol(QString text)
 {
     QString time = QDateTime::currentDateTime().toString("HH:mm:ss");
     ui->BrowserProtocol->setTextBackgroundColor(QColor(255, 0, 0, 127));
-    ui->BrowserProtocol->append("ERROR " + time + ": " + text);
+    ui->BrowserProtocol->append(time + ": " + text );
 }
 
 void MainWindow::print_ResultToArea(QString text)

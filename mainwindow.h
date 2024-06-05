@@ -39,5 +39,6 @@ private:
 
 signals:
     void MessageToProtocol(QString text);
+    void ErrorToProtocol(QString text);
 };
 #endif // MAINWINDOW_H

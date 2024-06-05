@@ -30,8 +30,8 @@ public:
     ParserProcessor(QByteArray data);
     ParserProcessor() {};
     int BisonParser();
-    int SemanticAnalys();
-    int Translation();
+    void SemanticAnalys();
+    void Translation();
     void SetData(QByteArray d);
 signals:
     void ErrorToProtocol(QString text);
