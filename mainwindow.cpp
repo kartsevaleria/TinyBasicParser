@@ -71,19 +71,17 @@ void MainWindow::on_StartButton_clicked()
     f.open(QFile::ReadOnly);
     QByteArray content(f.readAll());
 
-    this->ui->BrowserOutputText->clear();
+    ui->BrowserOutputText->clear();
     parser->SetData(content);
     if(parser->BisonParser() != 0)
         return;
     emit MessageToProtocol("Синтаксический разбор: успешно");
-
     try {
         parser->SemanticAnalys();
     }  catch (ParserException &e) {
         emit ErrorToProtocol(QString("Semantic error: %1").arg(e.what));
         return;
     }
-
     emit MessageToProtocol("Семантический разбор: успешно");
 
     parser->Translation();
