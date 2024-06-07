@@ -56,27 +56,43 @@ void SemanticInfo::treeTravel(VirtualBaseNode* currentNode, bool flagNumStr, boo
     }
     case TypeNode::NUMBER_DG:
     {
+        if(flagGOSUB)
+        {
+            auto vectorNextNode = currentNode->GetVectorNodes();
+            for(auto i = vectorNextNode.begin(); i < vectorNextNode.end(); i++ )
+                treeTravel(*i, flagNumStr, flagDIM, flagGOSUB, tempStr);
+            this->linkGOSUB->push_back(tempStr.toInt());
+            tempStr.clear();
+            break;
+        }
+
         if(!flagNumStr)
             break;
+
         flagNumStr = false;
         auto vectorNextNode = currentNode->GetVectorNodes();
         for(auto i = vectorNextNode.begin(); i < vectorNextNode.end(); i++ )
             treeTravel(*i, flagNumStr, flagDIM, flagGOSUB, tempStr);
         this->vectorNumerationStr->push_back(tempStr.toInt());
-        if(flagGOSUB)
-            this->linkGOSUB->push_back(tempStr.toInt());
         tempStr.clear();
         break;
     }
     case TypeNode::DIGIT:
     {
+        if(flagGOSUB)
+        {
+            auto vectorNextNode = currentNode->GetVectorNodes();
+            treeTravel(vectorNextNode[0], flagNumStr, flagDIM, flagGOSUB, tempStr);
+            this->linkGOSUB->push_back(tempStr.toInt());
+            tempStr.clear();
+            break;
+        }
+
         if(flagNumStr)
         {
             auto vectorNextNode = currentNode->GetVectorNodes();
             treeTravel(vectorNextNode[0], flagNumStr, flagDIM, flagGOSUB, tempStr);
             this->vectorNumerationStr->push_back(tempStr.toInt());
-            if(flagGOSUB)
-                this->linkGOSUB->push_back(tempStr.toInt());
             tempStr.clear();
             flagNumStr = false;
         }

@@ -96,14 +96,13 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool flag
     {
         auto VectorInputNode = node->GetVectorNodes();
         ToPython(VectorInputNode[0], result, flagTab);
-        qDebug() << result;
-        qDebug() << numLinkGoSub->size();
         if (std::find(numLinkGoSub->begin(), numLinkGoSub->end(), result.toInt()) != numLinkGoSub->end())
         {
             QString nameFunction = "def func_" + result + "():";
             result.clear();
+            result = nameFunction;
             flagTab = true;
-            ToPython(VectorInputNode[0], result, flagTab);
+            ToPython(VectorInputNode[1], result, flagTab);
             flagTab = false;
         }
         break;
@@ -112,7 +111,7 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool flag
     {
         auto VectorInputNode = node->GetVectorNodes();
         if(flagTab)
-            result += "\t";
+            result += "\n\t";
         ToPython(VectorInputNode[0], result, flagTab);
         result += " = int(input())";
         printFlag = true;
@@ -121,7 +120,7 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool flag
     case TypeNode::PRINT:
     {
         if(flagTab)
-            result += "\t";
+            result += "\n\t";
        result += "print( ";
        auto VectorPrintNode = node->GetVectorNodes();
        ToPython(VectorPrintNode[0], result, flagTab);
@@ -133,7 +132,7 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool flag
     {
         auto VectorNextNode = node->GetVectorNodes();
         if(flagTab)
-            result += "\t";
+            result += "\n\t";
         ToPython(VectorNextNode[0], result, flagTab);
         result += " = None";
         printFlag = true;
@@ -153,13 +152,14 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool flag
         auto VectorNextNode = node->GetVectorNodes();
         ToPython(VectorNextNode[0], result, flagTab);
         result += "()";
+        printFlag = true;
         break;
     }
     case TypeNode::IF_THEN:
     {
         auto VectorIfNode = node->GetVectorNodes();
         if(flagTab)
-            result += "\t";
+            result += "\n\t";
         result = "if ";
         this->ToPython(VectorIfNode[0], result, flagTab);
         this->ToPython(VectorIfNode[1], result, flagTab);
@@ -174,7 +174,7 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool flag
     {
         auto VectorNextNode = node->GetVectorNodes();
         if(flagTab)
-            result += "\t";
+            result += "\n\t";
         ToPython(VectorNextNode[0], result, flagTab);
         result += " = ";
         ToPython(VectorNextNode[1], result, flagTab);
@@ -183,10 +183,9 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool flag
     }
     case TypeNode::RETRN:
     {
-        if(flagTab)
-            result += "\t";
-        result = "return";
-        printFlag = true;
+        //result += "\n\t";
+        //result = "return";
+        //printFlag = true;
         break;
     }
     case TypeNode::EXPR_LST:
