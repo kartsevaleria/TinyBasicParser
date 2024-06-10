@@ -46,7 +46,7 @@ int ParserProcessor::BisonParser()
     return retcode;
 }
 
-//+ проверка, что gosub ссылается на существующую строку
+
 void ParserProcessor::SemanticAnalys()
 {
     //Как хранить номера строк?
@@ -54,6 +54,10 @@ void ParserProcessor::SemanticAnalys()
     semanticInfo.FillInfo();
 
     std::vector<int>* numStr = semanticInfo.GetVectorNumerationStr();
+    numReturn = semanticInfo.GetNumStrReturn();
+    numGoSub = semanticInfo.GetNumStrGoSub();
+    numLinkGoSub = semanticInfo.GetLinkGOSUB();
+
     if(!std::is_sorted(numStr->begin(), numStr->end()))
         throw ParserException{0, QString("Нумерация строк не по порядку")};
 
@@ -67,12 +71,14 @@ void ParserProcessor::SemanticAnalys()
         }
     }
 
-    numReturn = semanticInfo.GetNumStrReturn();
-    numGoSub = semanticInfo.GetNumStrGoSub();
-    numLinkGoSub = semanticInfo.GetLinkGOSUB();
-
     if(numGoSub->size() > numReturn->size())
         throw ParserException{0, QString("Оператор GOSUB не имеет RETURN строка %1").arg(numGoSub->back())};
+
+    for (auto elem : *numLinkGoSub)
+    {
+        if(std::find(numStr->begin(), numStr->end(), elem) == numStr->end())
+            throw ParserException{0, QString("Оператор GOSUB ссылается на несуществующую строку %1").arg(elem)};
+    }
 }
 
 void ParserProcessor::Translation()
@@ -82,7 +88,7 @@ void ParserProcessor::Translation()
      ToPython(root, line, flagTab);
  }
 
- //Добавить input и gosub
+ //flagTab not working
 void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool flagTab)
 {
     if(node == nullptr || node->GetVisitFlag() == true)
