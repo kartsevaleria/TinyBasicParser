@@ -25,6 +25,8 @@ private slots:
     void on_StartButton_clicked();
     void on_AboutProgram_triggered();
 
+    void on_ClearProtocolButton_clicked();
+
 public slots:
     void show_MessageProtocol(QString text);
     void show_ErrorProtocol(QString text);

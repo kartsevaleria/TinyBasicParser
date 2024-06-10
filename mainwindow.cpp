@@ -113,3 +113,9 @@ void MainWindow::print_ResultToArea(QString text)
 {
     ui->BrowserOutputText->append(text);
 }
+
+void MainWindow::on_ClearProtocolButton_clicked()
+{
+    ui->BrowserProtocol->clear();
+}
+
