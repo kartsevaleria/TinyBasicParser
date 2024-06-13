@@ -22,10 +22,8 @@ public:
 
 private slots:
     void on_BrowseFile_triggered();
-    void on_StartButton_clicked();
     void on_AboutProgram_triggered();
-
-    void on_ClearProtocolButton_clicked();
+    void on_actionStart_triggered();
 
 public slots:
     void show_MessageProtocol(QString text);

@@ -2,5 +2,10 @@
     <qresource prefix="/">
         <file>resource/start.png</file>
         <file>resource/clear.png</file>
+        <file>resource/var-logic.png</file>
+        <file>resource/red-krest50.png</file>
+        <file>resource/clearSearch.png</file>
+        <file>resource/close.png</file>
+        <file>resource/open.png</file>
     </qresource>
 </RCC>

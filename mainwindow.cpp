@@ -14,7 +14,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->parser = new ParserProcessor;
-    ui->StartButton->setDisabled(1);
+    ui->actionStart->setDisabled(1);
+
     //this->show_MessageProtocol("Начало работы.");
     QObject::connect(this, &MainWindow::MessageToProtocol, this, &MainWindow::show_MessageProtocol);
     QObject::connect(this, &MainWindow::ErrorToProtocol, this, &MainWindow::show_ErrorProtocol);
@@ -40,7 +41,7 @@ void MainWindow::on_BrowseFile_triggered()
     QString path = QFileDialog::getOpenFileName(this, "Choose file", QDir::current().absolutePath(), "Sample input files (*.txt)");
     if (path.isEmpty())
     {
-        ui->StartButton->setEnabled(0);
+        ui->actionStart->setEnabled(0);
 
         return;
     }
@@ -48,7 +49,7 @@ void MainWindow::on_BrowseFile_triggered()
     {
         ui->BrowserInputText->clear();
         PathToInputFile = path;
-        ui->StartButton->setEnabled(1);
+        ui->actionStart->setEnabled(1);
         QFile f(PathToInputFile);
         f.open(QFile::ReadOnly);
         ui->BrowserInputText->append(f.readAll());
@@ -57,36 +58,6 @@ void MainWindow::on_BrowseFile_triggered()
 
 }
 
-
-void MainWindow::on_StartButton_clicked()
-{
-    if (PathToInputFile.isEmpty()) {
-        //Add output error
-        this->show_ErrorProtocol("Не удалось открыть файл");
-        return;
-    }
-    ui->StartButton->setEnabled(0);
-    emit MessageToProtocol("Начало транслирования файла: " + PathToInputFile);
-    QFile f(PathToInputFile);
-    f.open(QFile::ReadOnly);
-    QByteArray content(f.readAll());
-
-    ui->BrowserOutputText->clear();
-    parser->SetData(content);
-    if(parser->BisonParser() != 0)
-        return;
-    emit MessageToProtocol("Синтаксический разбор: успешно");
-    try {
-        parser->SemanticAnalys();
-    }  catch (ParserException &e) {
-        emit ErrorToProtocol(QString("Semantic error: %1").arg(e.what));
-        return;
-    }
-    emit MessageToProtocol("Семантический разбор: успешно");
-
-    parser->Translation();
-    emit MessageToProtocol("Трансляция: успешно");
-}
 
 
 void MainWindow::on_AboutProgram_triggered()
@@ -114,8 +85,35 @@ void MainWindow::print_ResultToArea(QString text)
     ui->BrowserOutputText->append(text);
 }
 
-void MainWindow::on_ClearProtocolButton_clicked()
+
+
+void MainWindow::on_actionStart_triggered()
 {
-    ui->BrowserProtocol->clear();
+    if (PathToInputFile.isEmpty()) {
+        //Add output error
+        this->show_ErrorProtocol("Не удалось открыть файл");
+        return;
+    }
+    ui->actionStart->setEnabled(0);
+    emit MessageToProtocol("Начало транслирования файла: " + PathToInputFile);
+    QFile f(PathToInputFile);
+    f.open(QFile::ReadOnly);
+    QByteArray content(f.readAll());
+
+    ui->BrowserOutputText->clear();
+    parser->SetData(content);
+    if(parser->BisonParser() != 0)
+        return;
+    emit MessageToProtocol("Синтаксический разбор: успешно");
+    try {
+        parser->SemanticAnalys();
+    }  catch (ParserException &e) {
+        emit ErrorToProtocol(QString("Semantic error: %1").arg(e.what));
+        return;
+    }
+    emit MessageToProtocol("Семантический разбор: успешно");
+
+    parser->Translation();
+    emit MessageToProtocol("Трансляция: успешно");
 }
 
