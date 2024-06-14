@@ -24,9 +24,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>400</y>
+      <y>440</y>
       <width>801</width>
-      <height>171</height>
+      <height>131</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -42,7 +42,7 @@
       <x>10</x>
       <y>10</y>
       <width>801</width>
-      <height>371</height>
+      <height>411</height>
      </rect>
     </property>
     <property name="orientation">
@@ -96,7 +96,7 @@
    <property name="iconSize">
     <size>
      <width>24</width>
-     <height>32</height>
+     <height>35</height>
     </size>
    </property>
    <property name="toolButtonStyle">
@@ -109,14 +109,14 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionOpenDoc"/>
+   <addaction name="actionEdit"/>
    <addaction name="actionStart"/>
-   <addaction name="actionactionSeparator_1"/>
-   <addaction name="actionSeparator_2"/>
+   <addaction name="actionSaveResult"/>
    <addaction name="actionSeparator_3"/>
    <addaction name="actionSeparator_4"/>
    <addaction name="actionSeparator_5"/>
-   <addaction name="actionSeparator_6"/>
    <addaction name="actionSeparator_7"/>
+   <addaction name="actionSeparator_6"/>
   </widget>
   <widget class="QToolBar" name="ProtocoltoolBar">
    <property name="windowTitle">
@@ -125,7 +125,7 @@
    <property name="iconSize">
     <size>
      <width>24</width>
-     <height>32</height>
+     <height>35</height>
     </size>
    </property>
    <attribute name="toolBarArea">
@@ -135,13 +135,22 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionClearProtocol"/>
+   <addaction name="actionOnlyError"/>
   </widget>
   <action name="BrowseFile">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/resource/document_add.png</normaloff>:/resource/document_add.png</iconset>
+   </property>
    <property name="text">
     <string>Открыть...</string>
    </property>
   </action>
   <action name="SaveAs">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/resource/save_file.png</normaloff>:/resource/save_file.png</iconset>
+   </property>
    <property name="text">
     <string>Сохранить как...</string>
    </property>
@@ -157,7 +166,7 @@
    </property>
    <property name="icon">
     <iconset resource="resource.qrc">
-     <normaloff>:/resource/var-logic.png</normaloff>:/resource/var-logic.png</iconset>
+     <normaloff>:/resource/start.png</normaloff>:/resource/start.png</iconset>
    </property>
    <property name="text">
     <string>Start</string>
@@ -172,7 +181,7 @@
    </property>
    <property name="icon">
     <iconset resource="resource.qrc">
-     <normaloff>:/resource/open.png</normaloff>:/resource/open.png</iconset>
+     <normaloff>:/resource/document_add.png</normaloff>:/resource/document_add.png</iconset>
    </property>
    <property name="text">
     <string>OpenDoc</string>
@@ -181,20 +190,28 @@
     <string>Открыть исходный код</string>
    </property>
   </action>
-  <action name="actionactionSeparator_1">
+  <action name="actionSaveResult">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/resource/save_file.png</normaloff>:/resource/save_file.png</iconset>
    </property>
    <property name="text">
-    <string/>
+    <string>SaveResult</string>
    </property>
   </action>
-  <action name="actionSeparator_2">
+  <action name="actionEdit">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/resource/edit-file.png</normaloff>:/resource/edit-file.png</iconset>
    </property>
    <property name="text">
-    <string/>
+    <string>Edit</string>
    </property>
   </action>
   <action name="actionSeparator_3">
@@ -232,7 +249,7 @@
   <action name="actionClearProtocol">
    <property name="icon">
     <iconset resource="resource.qrc">
-     <normaloff>:/resource/clearSearch.png</normaloff>:/resource/clearSearch.png</iconset>
+     <normaloff>:/resource/clear.png</normaloff>:/resource/clear.png</iconset>
    </property>
    <property name="text">
     <string>ClearProtocol</string>
@@ -247,6 +264,15 @@
    </property>
    <property name="text">
     <string/>
+   </property>
+  </action>
+  <action name="actionOnlyError">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/resource/error.png</normaloff>:/resource/error.png</iconset>
+   </property>
+   <property name="text">
+    <string>OnlyError</string>
    </property>
   </action>
  </widget>
