@@ -25,15 +25,28 @@ private slots:
     void on_AboutProgram_triggered();
     void on_actionStart_triggered();
 
+    void on_actionClearProtocol_triggered();
+
+    void on_actionEdit_triggered();
+
+    void on_actionOnlyError_triggered();
+
+    void on_SaveAs_triggered();
+
+    void on_actionSaveResult_triggered();
+    void saveOutputFile();
+
 public slots:
     void show_MessageProtocol(QString text);
     void show_ErrorProtocol(QString text);
     void print_ResultToArea(QString text);
 
+
 private:
     Ui::MainWindow *ui;
     QString PathToInputFile;
     ParserProcessor *parser;
+    bool flagOnlyError;
     void resetResultArea();
     void addResultArea(int max, Qt::AlignmentFlag align);
 
