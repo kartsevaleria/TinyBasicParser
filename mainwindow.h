@@ -34,7 +34,9 @@ private slots:
     void on_SaveAs_triggered();
 
     void on_actionSaveResult_triggered();
-    void saveOutputFile();
+
+
+    void on_actionOpenDoc_triggered();
 
 public slots:
     void show_MessageProtocol(QString text);
@@ -49,6 +51,8 @@ private:
     bool flagOnlyError;
     void resetResultArea();
     void addResultArea(int max, Qt::AlignmentFlag align);
+    void saveOutputFile();
+    void openInputFile();
 
 signals:
     void MessageToProtocol(QString text);

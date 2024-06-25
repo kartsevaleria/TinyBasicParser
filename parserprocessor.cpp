@@ -23,6 +23,7 @@ ParserProcessor::ParserProcessor(QByteArray data) : data(data)
     numReturn = new std::vector<int>();
     numLinkGoSub = new std::vector<int>();
     numReturn = new std::vector<int>();
+    //flagTab = false;
 }
 
 void ParserProcessor::SetData(QByteArray d)
@@ -89,7 +90,7 @@ void ParserProcessor::Translation()
  }
 
  //flagTab not working
-void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool flagTab)
+void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool &flagTab)
 {
     if(node == nullptr || node->GetVisitFlag() == true)
         return;
@@ -109,7 +110,7 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool flag
             result = nameFunction;
             flagTab = true;
             ToPython(VectorInputNode[1], result, flagTab);
-            flagTab = false;
+
         }
         break;
     }
@@ -192,6 +193,7 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool flag
         //result += "\n\t";
         //result = "return";
         //printFlag = true;
+         flagTab = false;
         break;
     }
     case TypeNode::EXPR_LST:
@@ -312,6 +314,7 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool flag
     }
     if(!result.isEmpty() && printFlag)
     {
+        qDebug() << result;
         emit ResultToArea(result);
         result.clear();
     }

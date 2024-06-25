@@ -35,28 +35,6 @@ void MainWindow::resetResultArea()
 }
 
 
-void MainWindow::on_BrowseFile_triggered()
-{
-    QString path = QFileDialog::getOpenFileName(this, "Choose file", QDir::current().absolutePath(), "Sample input files (*.txt)");
-    if (path.isEmpty())
-    {
-        //ui->actionStart->setEnabled(0);
-
-        return;
-    }
-    else
-    {
-        ui->BrowserInputText->clear();
-        PathToInputFile = path;
-        //ui->actionStart->setEnabled(1);
-        QFile f(PathToInputFile);
-        f.open(QFile::ReadOnly);
-        ui->BrowserInputText->append(f.readAll());
-        this->show_MessageProtocol("Успешное открытие файла " + PathToInputFile);
-    }
-
-}
-
 
 
 void MainWindow::on_AboutProgram_triggered()
@@ -149,6 +127,39 @@ void MainWindow::saveOutputFile()
     }
 }
 
+void MainWindow::openInputFile()
+{
+    QString path = QFileDialog::getOpenFileName(this, "Choose file", QDir::current().absolutePath(), "Sample input files (*.txt)");
+    if (path.isEmpty())
+    {
+        //ui->actionStart->setEnabled(0);
+
+        return;
+    }
+    else
+    {
+        ui->BrowserInputText->clear();
+        PathToInputFile = path;
+        //ui->actionStart->setEnabled(1);
+        QFile f(PathToInputFile);
+        f.open(QFile::ReadOnly);
+        ui->BrowserInputText->append(f.readAll());
+        this->show_MessageProtocol("Успешное открытие файла " + PathToInputFile);
+    }
+}
+
+
+
+void MainWindow::on_BrowseFile_triggered()
+{
+    openInputFile();
+}
+
+void MainWindow::on_actionOpenDoc_triggered()
+{
+    openInputFile();
+}
+
 void MainWindow::on_SaveAs_triggered()
 {
     saveOutputFile();
@@ -159,4 +170,7 @@ void MainWindow::on_actionSaveResult_triggered()
 {
     saveOutputFile();
 }
+
+
+
 
