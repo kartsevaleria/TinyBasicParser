@@ -7,12 +7,27 @@ void SemanticInfo::FillInfo()
     bool flagNumStr = false;
     bool flagDIM = false;
     bool flagGOSUB = false;
+    bool flagLET = false;
     QString tempStr = "";
-    treeTravel(this->root, flagNumStr, flagDIM, flagGOSUB, tempStr);
+    treeTravel(this->root, flagNumStr, flagDIM, flagGOSUB, flagLET, tempStr);
     qDebug() << *linkGOSUB;
 }
 
-void SemanticInfo::treeTravel(VirtualBaseNode* currentNode, bool flagNumStr, bool flagDIM, bool flagGOSUB, QString &tempStr)
+bool findByValue(std::map<int, char> mapOfElement, char elem)
+{
+    bool isFind = false;
+    for(auto i = mapOfElement.begin(); i != mapOfElement.end(); i++ )
+    {
+        if(i->second == elem)
+        {
+            isFind = true;
+            break;
+        }
+    }
+    return isFind;
+}
+
+void SemanticInfo::treeTravel(VirtualBaseNode* currentNode, bool flagNumStr, bool flagDIM, bool flagGOSUB, bool flagLET, QString &tempStr)
 {
     if(currentNode == nullptr)
         return;
@@ -31,13 +46,29 @@ void SemanticInfo::treeTravel(VirtualBaseNode* currentNode, bool flagNumStr, boo
         tempStr.clear();
         break;
     }
+    case TypeNode::INPUT:
+    {
+        flagLET = true;
+        auto vectorNextNode = currentNode->GetVectorNodes();
+        treeTravel(vectorNextNode[0], flagNumStr, flagDIM, flagGOSUB, flagLET, tempStr);
+        flagLET = true;
+        break;
+    }
     case TypeNode::DIM:
     {
         //Что делать, если одинаковую переменную попытаются объявить в одной строке?
         flagDIM = true;
         auto vectorNextNode = currentNode->GetVectorNodes();
-        treeTravel(vectorNextNode[0], flagNumStr, flagDIM, flagGOSUB, tempStr);
+        treeTravel(vectorNextNode[0], flagNumStr, flagDIM, flagGOSUB, flagLET, tempStr);
         flagDIM = false;
+        break;
+    }
+    case TypeNode::LET:
+    {
+        flagLET = true;
+        auto vectorNextNode = currentNode->GetVectorNodes();
+        treeTravel(vectorNextNode[0], flagNumStr, flagDIM, flagGOSUB, flagLET, tempStr);
+        flagLET = false;
         break;
     }
     case TypeNode::RETRN:
@@ -50,7 +81,7 @@ void SemanticInfo::treeTravel(VirtualBaseNode* currentNode, bool flagNumStr, boo
         this->numStringGOSUB->push_back(currentNode->GetLineno());
         auto vectorNextNode = currentNode->GetVectorNodes();
         flagGOSUB = true;
-        treeTravel(vectorNextNode[0], flagNumStr, flagDIM, flagGOSUB, tempStr);
+        treeTravel(vectorNextNode[0], flagNumStr, flagDIM, flagGOSUB, flagLET, tempStr);
         flagGOSUB = false;
         break;
     }
@@ -60,7 +91,7 @@ void SemanticInfo::treeTravel(VirtualBaseNode* currentNode, bool flagNumStr, boo
         {
             auto vectorNextNode = currentNode->GetVectorNodes();
             for(auto i = vectorNextNode.begin(); i < vectorNextNode.end(); i++ )
-                treeTravel(*i, flagNumStr, flagDIM, flagGOSUB, tempStr);
+                treeTravel(*i, flagNumStr, flagDIM, flagGOSUB, flagLET, tempStr);
             this->linkGOSUB->push_back(tempStr.toInt());
             tempStr.clear();
             break;
@@ -72,7 +103,7 @@ void SemanticInfo::treeTravel(VirtualBaseNode* currentNode, bool flagNumStr, boo
         flagNumStr = false;
         auto vectorNextNode = currentNode->GetVectorNodes();
         for(auto i = vectorNextNode.begin(); i < vectorNextNode.end(); i++ )
-            treeTravel(*i, flagNumStr, flagDIM, flagGOSUB, tempStr);
+            treeTravel(*i, flagNumStr, flagDIM, flagGOSUB, flagLET, tempStr);
         this->vectorNumerationStr->push_back(tempStr.toInt());
         tempStr.clear();
         break;
@@ -82,7 +113,7 @@ void SemanticInfo::treeTravel(VirtualBaseNode* currentNode, bool flagNumStr, boo
         if(flagGOSUB)
         {
             auto vectorNextNode = currentNode->GetVectorNodes();
-            treeTravel(vectorNextNode[0], flagNumStr, flagDIM, flagGOSUB, tempStr);
+            treeTravel(vectorNextNode[0], flagNumStr, flagDIM, flagGOSUB, flagLET, tempStr);
             this->linkGOSUB->push_back(tempStr.toInt());
             tempStr.clear();
             break;
@@ -91,7 +122,7 @@ void SemanticInfo::treeTravel(VirtualBaseNode* currentNode, bool flagNumStr, boo
         if(flagNumStr)
         {
             auto vectorNextNode = currentNode->GetVectorNodes();
-            treeTravel(vectorNextNode[0], flagNumStr, flagDIM, flagGOSUB, tempStr);
+            treeTravel(vectorNextNode[0], flagNumStr, flagDIM, flagGOSUB, flagLET, tempStr);
             this->vectorNumerationStr->push_back(tempStr.toInt());
             tempStr.clear();
             flagNumStr = false;
@@ -107,6 +138,10 @@ void SemanticInfo::treeTravel(VirtualBaseNode* currentNode, bool flagNumStr, boo
     {
         if(flagDIM)
             mapDeclarationVar->insert(std::pair<int, char>(currentNode->GetLineno(), currentNode->GetValue()[0]));
+        else if(flagLET)
+            mapInitVar->insert(std::pair<int, char>(currentNode->GetLineno(), currentNode->GetValue()[0]));
+        else
+            mapUsingVar->insert(std::pair<int, char>(currentNode->GetLineno(), currentNode->GetValue()[0]));
         break;
     }
     default:
@@ -116,7 +151,7 @@ void SemanticInfo::treeTravel(VirtualBaseNode* currentNode, bool flagNumStr, boo
     auto vectorNextNode = currentNode->GetVectorNodes();
     for(auto i = vectorNextNode.begin(); i < vectorNextNode.end(); i++ )
     {
-        treeTravel(*i, flagNumStr, flagDIM, flagGOSUB, tempStr);
+        treeTravel(*i, flagNumStr, flagDIM, flagGOSUB, flagLET, tempStr);
     }
 }
 

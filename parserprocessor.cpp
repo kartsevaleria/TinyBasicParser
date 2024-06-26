@@ -55,6 +55,9 @@ void ParserProcessor::SemanticAnalys()
     semanticInfo.FillInfo();
 
     std::vector<int>* numStr = semanticInfo.GetVectorNumerationStr();
+    std::map<int, char>* declarationVar = semanticInfo.GetMapDeclarationVar();
+    std::map<int, char>* initVar = semanticInfo.GetMapInitVar();
+    std::map<int, char>* usingVar = semanticInfo.GetMapUsingVar();
     numReturn = semanticInfo.GetNumStrReturn();
     numGoSub = semanticInfo.GetNumStrGoSub();
     numLinkGoSub = semanticInfo.GetLinkGOSUB();
@@ -62,7 +65,13 @@ void ParserProcessor::SemanticAnalys()
     if(!std::is_sorted(numStr->begin(), numStr->end()))
         throw ParserException{0, QString("Нумерация строк не по порядку")};
 
-    std::map<int, char>* declarationVar = semanticInfo.GetMapDeclarationVar();
+    for(auto us_var : *usingVar)
+    {
+        //не работает
+        if(semanticInfo.findByValue(*initVar, us_var.second))
+            throw ParserException{0, QString("Использование неинициализированной переменной %1").arg(us_var.second)};
+    }
+
     for(auto it : *declarationVar)
     {
         for(auto it_next : *declarationVar)
@@ -118,7 +127,13 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool &fla
     {
         auto VectorInputNode = node->GetVectorNodes();
         if(flagTab)
-            result += "\n\t";
+        {
+            if(result.isEmpty())
+                result += "\t";
+            else
+                result += "\n\t";
+        }
+
         ToPython(VectorInputNode[0], result, flagTab);
         result += " = int(input())";
         printFlag = true;
@@ -127,7 +142,12 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool &fla
     case TypeNode::PRINT:
     {
         if(flagTab)
-            result += "\n\t";
+        {
+            if(result.isEmpty())
+                result += "\t";
+            else
+                result += "\n\t";
+        }
        result += "print( ";
        auto VectorPrintNode = node->GetVectorNodes();
        ToPython(VectorPrintNode[0], result, flagTab);
@@ -139,7 +159,12 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool &fla
     {
         auto VectorNextNode = node->GetVectorNodes();
         if(flagTab)
-            result += "\n\t";
+        {
+            if(result.isEmpty())
+                result += "\t";
+            else
+                result += "\n\t";
+        }
         ToPython(VectorNextNode[0], result, flagTab);
         result += " = None";
         printFlag = true;
@@ -155,6 +180,13 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool &fla
     }
     case TypeNode::GOSUB:
     {
+        if(flagTab)
+        {
+            if(result.isEmpty())
+                result += "\t";
+            else
+                result += "\n\t";
+        }
         result += "func_";
         auto VectorNextNode = node->GetVectorNodes();
         ToPython(VectorNextNode[0], result, flagTab);
@@ -166,7 +198,12 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool &fla
     {
         auto VectorIfNode = node->GetVectorNodes();
         if(flagTab)
-            result += "\n\t";
+        {
+            if(result.isEmpty())
+                result += "\t";
+            else
+                result += "\n\t";
+        }
         result = "if ";
         this->ToPython(VectorIfNode[0], result, flagTab);
         this->ToPython(VectorIfNode[1], result, flagTab);
@@ -181,7 +218,12 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool &fla
     {
         auto VectorNextNode = node->GetVectorNodes();
         if(flagTab)
-            result += "\n\t";
+        {
+            if(result.isEmpty())
+                result += "\t";
+            else
+                result += "\n\t";
+        }
         ToPython(VectorNextNode[0], result, flagTab);
         result += " = ";
         ToPython(VectorNextNode[1], result, flagTab);
@@ -314,7 +356,6 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool &fla
     }
     if(!result.isEmpty() && printFlag)
     {
-        qDebug() << result;
         emit ResultToArea(result);
         result.clear();
     }
