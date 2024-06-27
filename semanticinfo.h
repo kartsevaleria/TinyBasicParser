@@ -29,6 +29,7 @@ public:
         linkGOSUB = new std::vector<int>();
     }
     void FillInfo();
+    bool findByValue(std::map<int, char> mapOfElement, char elem, std::pair<int, char> &match);
     std::vector<int>* GetVectorNumerationStr() { return vectorNumerationStr; }
     std::vector<int>* GetNumStrReturn() { return numStringReturn; }
     std::vector<int>* GetNumStrGoSub() { return numStringGOSUB; }
@@ -36,8 +37,6 @@ public:
     std::map<int, char>* GetMapDeclarationVar() { return mapDeclarationVar; }
     std::map<int, char>* GetMapInitVar() { return mapInitVar; }
     std::map<int, char>* GetMapUsingVar() { return mapUsingVar; }
-
-    bool findByValue(std::map<int, char> mapOfElement, char elem);
 };
 
 #endif // SEMANTICINFO_H

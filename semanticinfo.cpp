@@ -13,7 +13,7 @@ void SemanticInfo::FillInfo()
     qDebug() << *linkGOSUB;
 }
 
-bool findByValue(std::map<int, char> mapOfElement, char elem)
+bool SemanticInfo::findByValue(std::map<int, char> mapOfElement, char elem, std::pair<int, char> &match)
 {
     bool isFind = false;
     for(auto i = mapOfElement.begin(); i != mapOfElement.end(); i++ )
@@ -21,6 +21,7 @@ bool findByValue(std::map<int, char> mapOfElement, char elem)
         if(i->second == elem)
         {
             isFind = true;
+            match = *i;
             break;
         }
     }
@@ -51,7 +52,7 @@ void SemanticInfo::treeTravel(VirtualBaseNode* currentNode, bool flagNumStr, boo
         flagLET = true;
         auto vectorNextNode = currentNode->GetVectorNodes();
         treeTravel(vectorNextNode[0], flagNumStr, flagDIM, flagGOSUB, flagLET, tempStr);
-        flagLET = true;
+        flagLET = false;
         break;
     }
     case TypeNode::DIM:

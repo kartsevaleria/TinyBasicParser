@@ -67,9 +67,11 @@ void ParserProcessor::SemanticAnalys()
 
     for(auto us_var : *usingVar)
     {
-        //не работает
-        if(semanticInfo.findByValue(*initVar, us_var.second))
+        std::pair<int, char> matchInitVar;
+        if(!semanticInfo.findByValue(*initVar, us_var.second, matchInitVar))
             throw ParserException{0, QString("Использование неинициализированной переменной %1").arg(us_var.second)};
+        else if(matchInitVar.first > us_var.first)
+            throw ParserException{us_var.first, QString("Использование переменной %1 до инициализации").arg(us_var.second)};
     }
 
     for(auto it : *declarationVar)
@@ -120,6 +122,11 @@ void ParserProcessor::ToPython(VirtualBaseNode *node, QString &result, bool &fla
             flagTab = true;
             ToPython(VectorInputNode[1], result, flagTab);
 
+        }
+        else
+        {
+            result = "";
+            ToPython(VectorInputNode[1], result, flagTab);
         }
         break;
     }
